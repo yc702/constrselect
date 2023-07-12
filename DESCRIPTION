@@ -1,10 +1,15 @@
 Package: constrselect
-Title: What the Package Does (One Line, Title Case)
+Title: Constrained estimation of each stratum with pre-determined order list 
+  in phase II randomized selection design
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Yi", "Chen", , "ychen839@wisc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Provides functions for probabilities estimation 
+  with some natural order constraints which may exist in 
+  stratified population to gain statistical efficiency for 
+  randomized phase II selection designs. This package is intended for use 
+  for both binary and survival outcomes and is described in detail in Chen and Yu (2023).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
