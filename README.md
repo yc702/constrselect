@@ -1,0 +1,26 @@
+
+# constrselect
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of constrselect is to ...
+
+## Installation
+
+You can install the development version of constrselect from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("yc702/constrselect")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(constrselect)
+## basic example code
+```
+
