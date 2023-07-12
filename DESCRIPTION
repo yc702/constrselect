@@ -18,3 +18,10 @@ BugReports: https://github.com/yc702/constrselect/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Imports:
+	base,
+	doParallel,
+	foreach,
+	parallel,
+	quadprog
+

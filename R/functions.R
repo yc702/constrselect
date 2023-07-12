@@ -1,4 +1,16 @@
-## partial ordering function
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param order_list PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname partial_order
+#' @export
 partial_order <- function(order_list){
   ## partial ordering according to order list
   order_output <- NULL
@@ -36,7 +48,24 @@ partial_order <- function(order_list){
 }
 
 
-## order constraint function
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param r PARAM_DESCRIPTION
+#' @param n PARAM_DESCRIPTION
+#' @param order_list PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[quadprog]{solve.QP}}
+#' @rdname order_constrain
+#' @export
+#' @importFrom quadprog solve.QP
 order_constrain<-function(r,n,order_list){
   p_bar<-r/n
   S<-length(p_bar)
@@ -54,7 +83,25 @@ order_constrain<-function(r,n,order_list){
 
 
 
-## Exact method for pickwin binomial
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param n PARAM_DESCRIPTION
+#' @param p1 PARAM_DESCRIPTION
+#' @param strata_diff PARAM_DESCRIPTION
+#' @param D PARAM_DESCRIPTION, Default: c(0.15, 0.15)
+#' @param d PARAM_DESCRIPTION, Default: c(0.05, 0.05)
+#' @param prop.strat PARAM_DESCRIPTION, Default: 0.3
+#' @param study PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname pickwin_bin_exact
+#' @export
 pickwin_bin_exact<- function(n, p1, strata_diff,
                              D=c(0.15,0.15),d=c(0.05,0.05),
                              prop.strat=0.3,study=NULL)
@@ -116,8 +163,37 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
 
 
 
-## Simulation method for pickwin multi-strata
-
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param n PARAM_DESCRIPTION
+#' @param pa_list PARAM_DESCRIPTION
+#' @param D PARAM_DESCRIPTION, Default: c(0.15, 0.15, 0.15)
+#' @param d_diff PARAM_DESCRIPTION, Default: c(0.05, 0.05, 0.05)
+#' @param prop.strat PARAM_DESCRIPTION, Default: c(0.2, 0.3, 0.5)
+#' @param study PARAM_DESCRIPTION, Default: 'Constrained'
+#' @param S PARAM_DESCRIPTION
+#' @param cluster PARAM_DESCRIPTION, Default: 6
+#' @param order_list PARAM_DESCRIPTION
+#' @param with_seed PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[parallel]{makeCluster}}
+#'  \code{\link[doParallel]{registerDoParallel}}
+#'  \code{\link[base]{NULL}}, \code{\link[base]{Random}}
+#'  \code{\link[foreach]{foreach}}
+#' @rdname pickwin_bin_multiple
+#' @export
+#' @importFrom parallel makeCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom base is.null set.seed
+#' @importFrom foreach foreach
 pickwin_bin_multiple <- function(n, pa_list,
                                  D=c(0.15,0.15,0.15), d_diff = c(0.05,0.05,0.05),
                                  prop.strat=c(0.2,0.3,0.5),study="Constrained",
