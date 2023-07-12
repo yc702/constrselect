@@ -3,8 +3,7 @@ Title: Constrained estimation of each stratum with pre-determined order list
   in phase II randomized selection design
 Version: 0.0.0.9000
 Authors@R: 
-    person("Yi", "Chen", , "ychen839@wisc.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Yi", "Chen", , "ychen839@wisc.edu", role = c("aut", "cre"))
 Description: Provides functions for probabilities estimation 
   with some natural order constraints which may exist in 
   stratified population to gain statistical efficiency for 
