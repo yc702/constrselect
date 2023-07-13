@@ -4,9 +4,11 @@
 \alias{Kg}
 \title{FUNCTION_TITLE}
 \usage{
-Kg(qn, nrisk, nevent, event_time, event_ind)
+Kg(x, qn, nrisk, nevent, event_time, event_ind)
 }
 \arguments{
+\item{x}{PARAM_DESCRIPTION}
+
 \item{qn}{PARAM_DESCRIPTION}
 
 \item{nrisk}{PARAM_DESCRIPTION}

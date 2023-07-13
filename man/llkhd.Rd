@@ -4,9 +4,11 @@
 \alias{llkhd}
 \title{FUNCTION_TITLE}
 \usage{
-llkhd(qq, nrisk, nevent, event_time, event_ind)
+llkhd(x, qq, nrisk, nevent, event_time, event_ind)
 }
 \arguments{
+\item{x}{PARAM_DESCRIPTION}
+
 \item{qq}{PARAM_DESCRIPTION}
 
 \item{nrisk}{PARAM_DESCRIPTION}

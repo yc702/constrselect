@@ -20,8 +20,10 @@ Suggests:
 Config/testthat/edition: 3
 Imports:
 	base,
+	parallel,
 	doParallel,
 	foreach,
 	parallel,
 	quadprog,
-	survival
+	survival,
+	dplyr

@@ -274,8 +274,11 @@ Ng <- function(x,event_time){
 }
 
 
+
+
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
 #' @param qn PARAM_DESCRIPTION
 #' @param nrisk PARAM_DESCRIPTION
 #' @param nevent PARAM_DESCRIPTION
@@ -292,7 +295,7 @@ Ng <- function(x,event_time){
 #' @rdname Kg
 #' @export
 
-Kg <- function(qn,nrisk,nevent,event_time,event_ind){
+Kg <- function(x,qn,nrisk,nevent,event_time,event_ind){
   mgx <- Mg(x,event_time,event_ind)
 
   if (mgx ==0 & abs(qn)>0.00001){
@@ -327,8 +330,11 @@ Kg <- function(qn,nrisk,nevent,event_time,event_ind){
   }
 }
 
+
+
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
 #' @param qq PARAM_DESCRIPTION
 #' @param nrisk PARAM_DESCRIPTION
 #' @param nevent PARAM_DESCRIPTION
@@ -345,12 +351,12 @@ Kg <- function(qn,nrisk,nevent,event_time,event_ind){
 #' @rdname llkhd
 #' @export
 
-llkhd <- function(qq,nrisk,nevent,event_time,event_ind){
+llkhd <- function(x,qq,nrisk,nevent,event_time,event_ind){
   mgx <- Mg(x,event_time,event_ind)
 
   if (mgx!=0){
     event_llkhd <- 0
-    k_hat <- Kg(qq,nrisk,nevent,event_time,event_ind)
+    k_hat <- Kg(x,qq,nrisk,nevent,event_time,event_ind)
 
     ## if equal, there will be 0 in denominators which will lead to -inf values
     ## n-Ng=d
@@ -442,6 +448,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @rdname pickwin_surv_fun
 #' @export
 #' @import doParallel
+#' @import parallel
 #' @import foreach
 #' @import survival
 #' @import dplyr
@@ -493,17 +500,14 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                                fn <- function(q){
 
-                                 sum(mapply(function(a,b,c,d,e) -llkhd(a,b,c,d,e), q,nrisk,
+                                 sum(mapply(function(a,b,c,d,e,f) -llkhd(a,b,c,d,e,f), x,q,nrisk,
                                             nevent,event_time,event_ind))
 
                                }
 
                                grr <- function(q){
-                                 grr_comb <- NULL
-                                 for (i in 1:length(q)){
-                                   grr_comb <- c(grr_comb,Kg(q[i],nrisk[[i]],nevent[[i]],event_time[[i]],event_ind[[i]]))
-                                 }
-                                 return(grr_comb)
+                                 mapply(function(a,b,c,d,e) Kg(x,a,b,c,d,e), q,nrisk,
+                                        nevent,event_time,event_ind)
 
 
                                }
@@ -593,7 +597,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                stop("This is an error message.")
                              }
 
-                             if(all(S_A>S_B+d_diff)){
+                            if(all(S_A>S_B+d_diff)){
                                corr <- corr+1
                             }
                             if(all(S_A<S_B+d_diff)){
