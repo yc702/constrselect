@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{pickwin_bin_exact}
 \alias{pickwin_bin_exact}
-\title{FUNCTION_TITLE}
+\title{Binary outcome estimation for two treatments with two stratum.}
 \usage{
 pickwin_bin_exact(
   n,
@@ -15,25 +15,27 @@ pickwin_bin_exact(
 )
 }
 \arguments{
-\item{n}{PARAM_DESCRIPTION}
+\item{n}{Total sample size for all strata.}
 
-\item{p1}{PARAM_DESCRIPTION}
+\item{p1}{A vector of true probability for inferior treatment stratum arm.}
 
-\item{strata_diff}{PARAM_DESCRIPTION}
+\item{strata_diff}{The strata difference between stratum 1 and 2 for both treatment arm.
+The two treatment arms have equal strata difference.}
 
-\item{D}{PARAM_DESCRIPTION, Default: c(0.15, 0.15)}
+\item{D}{A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15)}
 
-\item{d}{PARAM_DESCRIPTION, Default: c(0.05, 0.05)}
+\item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05)}
 
-\item{prop.strat}{PARAM_DESCRIPTION, Default: 0.3}
+\item{prop.strat}{The sample size proportion for two strata, Default: 0.3}
 
-\item{study}{PARAM_DESCRIPTION, Default: NULL}
+\item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: NULL}
 }
 \value{
-OUTPUT_DESCRIPTION
+Return a vector of P_corr and P_amb
 }
 \description{
-FUNCTION_DESCRIPTION
+Estimation of P_corr and P_amb for selection design between
+two treatments with two stratum using exact binomial method.
 }
 \details{
 DETAILS

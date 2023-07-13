@@ -2,14 +2,14 @@
 % Please edit documentation in R/functions.R
 \name{pickwin_surv_fun}
 \alias{pickwin_surv_fun}
-\title{FUNCTION_TITLE}
+\title{Estimate constrained NPMLE of survival probabilities in stratified selection setting}
 \usage{
 pickwin_surv_fun(
   maxn,
   prop,
   event_rate_A,
   trt_diff,
-  d_diff,
+  d,
   arrival_rate,
   FUP,
   x,
@@ -21,47 +21,47 @@ pickwin_surv_fun(
 )
 }
 \arguments{
-\item{maxn}{PARAM_DESCRIPTION}
+\item{maxn}{Number of patients need to be accrued for each treatment arm}
 
-\item{prop}{PARAM_DESCRIPTION}
+\item{prop}{The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)}
 
-\item{event_rate_A}{PARAM_DESCRIPTION}
+\item{event_rate_A}{The exponential event rate for patients in the inferior treatment arm}
 
-\item{trt_diff}{PARAM_DESCRIPTION}
+\item{trt_diff}{A vector of two treatment arms differences for each stratum, Default: c(0.1, 0.1,0.1)}
 
-\item{d_diff}{PARAM_DESCRIPTION}
+\item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)}
 
-\item{arrival_rate}{PARAM_DESCRIPTION}
+\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year}
 
-\item{FUP}{PARAM_DESCRIPTION}
+\item{FUP}{Additional follow up time after the last patient is accrued}
 
-\item{x}{PARAM_DESCRIPTION}
+\item{x}{Time we are interested in comparing.}
 
-\item{S}{PARAM_DESCRIPTION}
+\item{S}{Number of simulation}
 
-\item{study}{PARAM_DESCRIPTION, Default: 'Constrained'}
+\item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'}
 
-\item{cluster}{PARAM_DESCRIPTION}
+\item{cluster}{Number of parallel running CPU cores, Default: 6}
 
-\item{order_list}{PARAM_DESCRIPTION}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list.}
 
-\item{with_seed}{PARAM_DESCRIPTION, Default: NULL}
+\item{with_seed}{Random seed for simulation, Default: NULL}
 }
 \value{
 OUTPUT_DESCRIPTION
 }
 \description{
-FUNCTION_DESCRIPTION
+Estimate constrained NPMLE of survival probabilities in stratified selection setting using simulation.
+For each simulation setting, get whether it is correctly or wrongly counted in.
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
+trt_diff=c(0.1,0.1,0.1),d_diff=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
 }
 \seealso{
 \code{\link[doParallel]{registerDoParallel}}

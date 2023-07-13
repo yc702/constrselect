@@ -2,32 +2,28 @@
 % Please edit documentation in R/functions.R
 \name{sim_surv}
 \alias{sim_surv}
-\title{FUNCTION_TITLE}
+\title{Simulation of survival times}
 \usage{
 sim_surv(nmax, arrival_rate, event_rate, FUP)
 }
 \arguments{
-\item{nmax}{PARAM_DESCRIPTION}
+\item{nmax}{Number of patients need to be accrued}
 
-\item{arrival_rate}{PARAM_DESCRIPTION}
+\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year}
 
-\item{event_rate}{PARAM_DESCRIPTION}
+\item{event_rate}{The exponential event rate for patients}
 
-\item{FUP}{PARAM_DESCRIPTION}
+\item{FUP}{Additional follow up time after the last patient is accrued}
 }
 \value{
-OUTPUT_DESCRIPTION
+Return a dataframe with time to event/censoring and event status (1,0)
 }
 \description{
-FUNCTION_DESCRIPTION
+Simulate survival times based on poisson arrival and exponential survival.
+Follow up the patients for addition month after the last patient is accrued.
 }
 \details{
 DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+sim_surv(nmax=12,arrival_rate=4,event_rate=0.08,FUP=6)
 }

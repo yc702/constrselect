@@ -2,36 +2,35 @@
 % Please edit documentation in R/functions.R
 \name{Kg}
 \alias{Kg}
-\title{FUNCTION_TITLE}
+\title{Function used for constrained likelihood optimization}
 \usage{
 Kg(x, qn, nrisk, nevent, event_time, event_ind)
 }
 \arguments{
-\item{x}{PARAM_DESCRIPTION}
+\item{x}{Time we are interested in comparing.}
 
-\item{qn}{PARAM_DESCRIPTION}
+\item{qn}{Parameter we are optimizing which survival probability at time x is exp(qn)}
 
-\item{nrisk}{PARAM_DESCRIPTION}
+\item{nrisk}{A vector of number at risk for each event time}
 
-\item{nevent}{PARAM_DESCRIPTION}
+\item{nevent}{A vector of 1 representing the number of event}
 
-\item{event_time}{PARAM_DESCRIPTION}
+\item{event_time}{A vector of event times.}
 
-\item{event_ind}{PARAM_DESCRIPTION}
+\item{event_ind}{A vector of event indicator (1, 0)}
 }
 \value{
 OUTPUT_DESCRIPTION
 }
 \description{
-FUNCTION_DESCRIPTION
+Function used for constrained likelihood optimization
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+Kg(x = 6,qn = -0.1,nrisk = c(15, 14, 13, 12, 11, 10),nevent = c(1, 1, 1, 1, 1, 1),
+event_time = c(0.47, 0.84, 2.25, 2.5, 2.8, 4.5, 6, 6.16, 6.6, 6.86, 8.17),
+event_ind = c(1, 1, 1, 1, 1, 1, 0, 0,0,0,0)) #29.99996
 }

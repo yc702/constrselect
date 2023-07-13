@@ -2,30 +2,26 @@
 % Please edit documentation in R/functions.R
 \name{Mg}
 \alias{Mg}
-\title{FUNCTION_TITLE}
+\title{Calculate distinct events}
 \usage{
 Mg(x, event_time, event_ind)
 }
 \arguments{
-\item{x}{PARAM_DESCRIPTION}
+\item{x}{Time we are interested in comparing.}
 
-\item{event_time}{PARAM_DESCRIPTION}
+\item{event_time}{A vector of event times.}
 
-\item{event_ind}{PARAM_DESCRIPTION}
+\item{event_ind}{A vector of event indicator (1, 0)}
 }
 \value{
-OUTPUT_DESCRIPTION
+A number of distinct events in (0,x]
 }
 \description{
-FUNCTION_DESCRIPTION
+Calculate the number of distinct events in (0,x], which will be used in the following likelihood calculation
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Mg(x = 6, event_time=c(0.41, 0.8, 2.2, 2.5, 3, 4.5, 6, 6.2, 6.5, 7),event_ind=c(1,1,1,1,1,1,0,0,0,0)) #6
 }

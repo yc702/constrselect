@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{pickwin_bin_multiple}
 \alias{pickwin_bin_multiple}
-\title{FUNCTION_TITLE}
+\title{Binary outcome estimation for two treatments with multiple strata.}
 \usage{
 pickwin_bin_multiple(
   n,
   pa_list,
   D = c(0.15, 0.15, 0.15),
-  d_diff = c(0.05, 0.05, 0.05),
+  d = c(0.05, 0.05, 0.05),
   prop.strat = c(0.2, 0.3, 0.5),
   study = "Constrained",
   S,
@@ -18,39 +18,38 @@ pickwin_bin_multiple(
 )
 }
 \arguments{
-\item{n}{PARAM_DESCRIPTION}
+\item{n}{Total sample size for each treatment arm.}
 
-\item{pa_list}{PARAM_DESCRIPTION}
+\item{pa_list}{A vector of response probabilities for the inferior treatment arm for each stratum.}
 
-\item{D}{PARAM_DESCRIPTION, Default: c(0.15, 0.15, 0.15)}
+\item{D}{A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15, 0.15)}
 
-\item{d_diff}{PARAM_DESCRIPTION, Default: c(0.05, 0.05, 0.05)}
+\item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)}
 
-\item{prop.strat}{PARAM_DESCRIPTION, Default: c(0.2, 0.3, 0.5)}
+\item{prop.strat}{The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)}
 
-\item{study}{PARAM_DESCRIPTION, Default: 'Constrained'}
+\item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'}
 
-\item{S}{PARAM_DESCRIPTION}
+\item{S}{Number of simulation}
 
-\item{cluster}{PARAM_DESCRIPTION, Default: 6}
+\item{cluster}{Number of parallel running CPU cores, Default: 6}
 
-\item{order_list}{PARAM_DESCRIPTION}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list.}
 
-\item{with_seed}{PARAM_DESCRIPTION, Default: NULL}
+\item{with_seed}{Random seed for simulation, Default: NULL}
 }
 \value{
-OUTPUT_DESCRIPTION
+A data frame of binary probability, correct and error decision for each simulated scenario
 }
 \description{
-FUNCTION_DESCRIPTION
+Estimation of P_corr and P_amb for selection design between
+two treatments with multiple strata using simulation method.
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+out <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
+prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=6,order_list=list(1,c(2,3)))
 }

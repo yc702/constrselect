@@ -2,32 +2,30 @@
 % Please edit documentation in R/functions.R
 \name{order_constrain}
 \alias{order_constrain}
-\title{FUNCTION_TITLE}
+\title{Order constrained binary outcome estimation}
 \usage{
 order_constrain(r, n, order_list)
 }
 \arguments{
-\item{r}{PARAM_DESCRIPTION}
+\item{r}{A vector of responses for all strata}
 
-\item{n}{PARAM_DESCRIPTION}
+\item{n}{A vector of total sample sizes for all strata}
 
-\item{order_list}{PARAM_DESCRIPTION}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list}
 }
 \value{
-OUTPUT_DESCRIPTION
+A vector containing the solution of the quadratic programming problem.
 }
 \description{
-FUNCTION_DESCRIPTION
+For each stratum, given the order list, estimate the
+order constrained binary outcome estimator using quadratic programming optimization
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+order_constrain(r=c(5,10),n=c(20,25),order_list=list(1,2))
+order_constrain(r=c(5,10,13),n=c(20,25,25),order_list=list(1,c(2,3))) ## the strata ordering is 1<2, 1<3 and no ordering between stratum 2 and 3
 }
 \seealso{
 \code{\link[quadprog]{solve.QP}}

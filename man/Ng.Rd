@@ -2,28 +2,25 @@
 % Please edit documentation in R/functions.R
 \name{Ng}
 \alias{Ng}
-\title{FUNCTION_TITLE}
+\title{Calculate number at risk at a specific time}
 \usage{
 Ng(x, event_time)
 }
 \arguments{
-\item{x}{PARAM_DESCRIPTION}
+\item{x}{Time we are interested in comparing.}
 
-\item{event_time}{PARAM_DESCRIPTION}
+\item{event_time}{A vector of event times.}
 }
 \value{
-OUTPUT_DESCRIPTION
+A number at risk at time x
 }
 \description{
-FUNCTION_DESCRIPTION
+Calculate number at risk at time x, which will be used in the following likelihood calculation
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+Ng(x=6,event_time=c(0.41, 0.8, 2.2, 2.5, 3, 4.5, 6, 6.2, 6.5, 7)) ## 4
 }

@@ -2,26 +2,22 @@
 % Please edit documentation in R/functions.R
 \name{partial_order}
 \alias{partial_order}
-\title{FUNCTION_TITLE}
+\title{Accommodate partial ordering in optimization}
 \usage{
 partial_order(order_list)
 }
 \arguments{
-\item{order_list}{PARAM_DESCRIPTION}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list
+Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3
+Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3}
 }
 \value{
-OUTPUT_DESCRIPTION
+A matrix with columns stratum number and rows the stratum-wise comparison with 1 the larger one and -1 the smaller one.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
+Accommodate partial ordering and the output will be used in the order constrained optimization program
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+partial_order(list(1,c(2,3),4,5))
 }
