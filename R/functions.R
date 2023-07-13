@@ -457,7 +457,9 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
   if(!is.null(with_seed)){set.seed(with_seed, kind = "L'Ecuyer-CMRG")}
 
-  surv_estimate <- foreach::foreach(1:S, .combine = rbind,
+  surv_estimate <- foreach(1:S, .combine = rbind,
+                           .export = c("order_constrain","partial_order",
+                                       "sim_surv","llkhd","Kg","Ng","Mg"),
                            .packages = c("dplyr","survival")) %dopar% {
 
                              corr <- 0
