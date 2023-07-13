@@ -500,7 +500,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                                fn <- function(q){
 
-                                 sum(mapply(function(a,b,c,d,e,f) -llkhd(a,b,c,d,e,f), x,q,nrisk,
+                                 sum(mapply(function(a,b,c,d,e) -llkhd(x,a,b,c,d,e), q,nrisk,
                                             nevent,event_time,event_ind))
 
                                }
@@ -605,7 +605,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                             }
 
 
-                            data.frame(S_A,S_B,corr,err)
+                            data.frame(t(S_A),t(S_B),corr,err)
                           }
 
   return (surv_estimate)
