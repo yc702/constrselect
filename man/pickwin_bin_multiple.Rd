@@ -54,9 +54,3 @@ if(interactive()){
  }
 }
 }
-\seealso{
-\code{\link[parallel]{makeCluster}}
-\code{\link[doParallel]{registerDoParallel}}
-\code{\link[base]{NULL}}, \code{\link[base]{Random}}
-\code{\link[foreach]{foreach}}
-}
