@@ -2,6 +2,7 @@
 # constrselect
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/yc702/constrselect/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yc702/constrselect/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of constrselect is to ...

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{pickwin_bin_exact}
 \alias{pickwin_bin_exact}
-\title{Binary outcome estimation for two treatments with two stratum.}
+\title{Binary outcome estimation for two treatments with two strata.}
 \usage{
 pickwin_bin_exact(
   n,
@@ -35,15 +35,12 @@ Return a vector of P_corr and P_amb
 }
 \description{
 Estimation of P_corr and P_amb for selection design between
-two treatments with two stratum using exact binomial method.
+two treatments with two strata using exact binomial method.
 }
 \details{
 DETAILS
 }
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+library(constrselect)
+pickwin_bin_exact(n = 50, p1 = 0.25, strata_diff = 0.05, D=c(0.15,0.15),d=c(0.05,0.05),prop.strat=0.4,study="Constrained")
 }
