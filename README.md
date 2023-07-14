@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/yc702/constrselect/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yc702/constrselect/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/yc702/constrselect/branch/master/graph/badge.svg)](https://app.codecov.io/gh/yc702/constrselect?branch=master)
 <!-- badges: end -->
 
 The goal of constrselect is to ...
