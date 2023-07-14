@@ -407,7 +407,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
     t.ind[j] = ifelse(arrival.t[j]+event.t[j]<=tobs,1,0)
   }
 
-  return(data.frame(cbind(time = t.event,ind = t.ind)))
+  return(cbind(time = t.event,ind = t.ind))
 
 }
 

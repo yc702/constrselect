@@ -48,7 +48,7 @@ pickwin_surv_fun(
 \item{with_seed}{Random seed for simulation, Default: NULL}
 }
 \value{
-OUTPUT_DESCRIPTION
+A data frame of survival probability, correct and error decision for each simulated scenario
 }
 \description{
 Estimate constrained NPMLE of survival probabilities in stratified selection setting using simulation.
@@ -60,7 +60,7 @@ DETAILS
 \examples{
 library(constrselect)
 test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
-trt_diff=c(0.1,0.1,0.1),d_diff=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
 x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
 }
 \seealso{
