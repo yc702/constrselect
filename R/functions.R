@@ -11,6 +11,8 @@
 #' @export
 partial_order <- function(order_list){
   ## partial ordering according to order list
+  if(class(order_list)!="list") stop("The input or order_list must be a list")
+
   order_output <- NULL
   for (i in 1:(length(order_list)-1)){
     raw_output <- rep(0,length(unlist(order_list)))
@@ -63,6 +65,9 @@ partial_order <- function(order_list){
 #' @export
 #' @importFrom quadprog solve.QP
 order_constrain<-function(r,n,order_list){
+  if(length(r)!=length(unlist(order_list))) stop("The number of response and order list must be the same")
+  if(length(n)!=length(unlist(order_list))) stop("The number of sample size for strata and order list must be the same")
+
   p_bar<-r/n
   S<-length(p_bar)
   Dmat<-matrix(0,S,S)
@@ -133,14 +138,14 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
           }
 
           ## Error cases
-          if (p_2<p_1+d){
+          if (all(p_2<p_1+d)){
 
             pp_err <- pp_err+dbinom(i1, size=n1, prob=p1)*dbinom(i2, size=n2, prob=p1+strata_diff)*
               dbinom(j1, size=n1, prob=p1+D[1])*dbinom(j2, size=n2, prob=p1+strata_diff+D[2])
           }
 
           ## Correct cases
-          if (p_2>p_1+d) {
+          if (all(p_2>p_1+d)) {
             pp_corr <- pp_corr+dbinom(i1, size=n1, prob=p1)*dbinom(i2, size=n2, prob=p1+strata_diff)*
               dbinom(j1, size=n1, prob=p1+D[1])*dbinom(j2, size=n2, prob=p1+strata_diff+D[2])
           }
