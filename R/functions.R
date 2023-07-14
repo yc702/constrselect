@@ -191,7 +191,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
 pickwin_bin_multiple <- function(n, pa_list,
                                  D=c(0.15,0.15,0.15), d = c(0.05,0.05,0.05),
                                  prop.strat=c(0.2,0.3,0.5),study="Constrained",
-                                 S,cluster = 2,order_list,with_seed=NULL) {
+                                 S,cluster = 6,order_list,with_seed=NULL) {
   Nk<- ceiling(prop.strat*n)
   cl <- makeCluster(cluster)
   registerDoParallel(cl)
@@ -448,7 +448,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @import dplyr
 pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                              trt_diff,d,arrival_rate,FUP,
-                             x,S,study = "Constrained",cluster,
+                             x,S,study = "Constrained",cluster=6,
                              order_list,with_seed=NULL) {
   #S is simulation times
   n<- ceiling(prop*maxn)

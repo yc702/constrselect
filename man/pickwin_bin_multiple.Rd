@@ -51,5 +51,5 @@ DETAILS
 \examples{
 library(constrselect)
 out <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
-prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=6,order_list=list(1,c(2,3)))
+prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,order_list=list(1,c(2,3)))
 }

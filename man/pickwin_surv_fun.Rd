@@ -15,7 +15,7 @@ pickwin_surv_fun(
   x,
   S,
   study = "Constrained",
-  cluster,
+  cluster = 6,
   order_list,
   with_seed = NULL
 )
@@ -61,7 +61,7 @@ DETAILS
 library(constrselect)
 test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
 trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
-x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
+x=6,S=10,study = "Constrained",cluster=1,order_list=list(1,c(2,3)),with_seed = 111)
 }
 \seealso{
 \code{\link[doParallel]{registerDoParallel}}
