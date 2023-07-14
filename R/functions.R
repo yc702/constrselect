@@ -229,8 +229,8 @@ pickwin_bin_multiple <- function(n, pa_list,
                              data.frame(t(result))
 
                            }
-  colnames(bin_estimator) <- c(paste0("S_A",1:length(event_rate_A)),
-                               paste0("S_B",1:length(event_rate_A)),"Correct","Error")
+  colnames(bin_estimator) <- c(paste0("S_A",1:length(pa_list)),
+                               paste0("S_B",1:length(pa_list)),"Correct","Error")
   return (bin_estimator)
 
 }
@@ -291,6 +291,7 @@ Ng <- function(x,event_time){
 #' @export
 
 Kg <- function(x,qn,nrisk,nevent,event_time,event_ind){
+  if(qn>0) stop("qn needs to be smaller than 0")
   mgx <- Mg(x,event_time,event_ind)
 
   if (mgx ==0 & abs(qn)>0.00001){
@@ -346,6 +347,8 @@ Kg <- function(x,qn,nrisk,nevent,event_time,event_ind){
 #' @export
 
 llkhd <- function(x,qn,nrisk,nevent,event_time,event_ind){
+
+  if(qn>0) stop("qn needs to be smaller than 0")
   mgx <- Mg(x,event_time,event_ind)
 
   if (mgx!=0){
@@ -404,7 +407,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
     t.ind[j] = ifelse(arrival.t[j]+event.t[j]<=tobs,1,0)
   }
 
-  return(cbind(time = t.event,ind = t.ind))
+  return(data.frame(cbind(time = t.event,ind = t.ind)))
 
 }
 
@@ -425,12 +428,12 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @param cluster Number of parallel running CPU cores, Default: 6
 #' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list.
 #' @param with_seed Random seed for simulation, Default: NULL
-#' @return OUTPUT_DESCRIPTION
+#' @return A data frame of survival probability, correct and error decision for each simulated scenario
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
 #' test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
-#' trt_diff=c(0.1,0.1,0.1),d_diff=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+#' trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
 #' x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
 #' @seealso
 #'  \code{\link[doParallel]{registerDoParallel}}
@@ -600,7 +603,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                            }
 
   colnames(surv_estimate) <- c(paste0("S_A",1:length(event_rate_A)),
-                               paste0("S_B",1:length(event_rate_A)))
+                               paste0("S_B",1:length(event_rate_A)),"Corr","Error")
   return (surv_estimate)
 
 }
