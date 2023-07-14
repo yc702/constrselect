@@ -28,7 +28,7 @@ test_that("Check pickwin_bin_multiple",{
   result <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28),
                                  D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
                                  prop.strat=c(0.3,0.3,0.4),study="Constrained",
-                                 S = 1000,cluster=6,order_list=list(1,c(2,3)))
+                                 S = 100,cluster=2,order_list=list(1,c(2,3)))
   expect_s3_class(result,"data.frame")
   expect_equal(dim(result)[2],2*length(pa_list)+2)
 })
@@ -79,4 +79,14 @@ test_that("Check sim_surv",{
 
 })
 
+
+test_that("Check pickwin_surv_fun",{
+  event_rate_A=c(0.08,0.05, 0.05)
+  result <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
+                             trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+                             x=6,S=100,study = "Constrained",cluster=2,order_list=list(1,c(2,3)),with_seed = 111)
+  expect_s3_class(result,"data.frame")
+  expect_equal(dim(result)[2],2*length(event_rate_A)+2)
+
+})
 

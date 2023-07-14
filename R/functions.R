@@ -183,7 +183,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
 #' @examples
 #' library(constrselect)
 #' out <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
-#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=6,order_list=list(1,c(2,3)))
+#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,order_list=list(1,c(2,3)))
 #' @rdname pickwin_bin_multiple
 #' @export
 #' @import doParallel
@@ -191,7 +191,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
 pickwin_bin_multiple <- function(n, pa_list,
                                  D=c(0.15,0.15,0.15), d = c(0.05,0.05,0.05),
                                  prop.strat=c(0.2,0.3,0.5),study="Constrained",
-                                 S,cluster = 6,order_list,with_seed=NULL) {
+                                 S,cluster = 2,order_list,with_seed=NULL) {
   Nk<- ceiling(prop.strat*n)
   cl <- makeCluster(cluster)
   registerDoParallel(cl)
