@@ -229,6 +229,7 @@ pickwin_bin_multiple <- function(n, pa_list,
                              data.frame(t(result))
 
                            }
+  on.exit(stopCluster(cl))
   colnames(bin_estimator) <- c(paste0("S_A",1:length(pa_list)),
                                paste0("S_B",1:length(pa_list)),"Correct","Error")
   return (bin_estimator)
@@ -601,7 +602,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                             data.frame(t(S_A),t(S_B),corr,err)
                            }
-
+  on.exit(stopCluster(cl))
   colnames(surv_estimate) <- c(paste0("S_A",1:length(event_rate_A)),
                                paste0("S_B",1:length(event_rate_A)),"Corr","Error")
   return (surv_estimate)
