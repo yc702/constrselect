@@ -47,7 +47,11 @@ Suppose the two strata of the inferior treatment arm have 2-year EFS (0.6, 0.7),
 ``` r
 ## basic example code
 
-result <- pickwin_surv_fun(maxn=30,prop=c(0.3,0.7),event_rate_A=c(-log(0.75)/2,-log(0.85)/2),trt_diff=c(log(0.75)/2-log(0.6)/2,log(0.85)/2-log(0.7)/2),d=c(0.02,0.02), arrival_rate=8,FUP=2,x=2,S=5000,study = "Constrained",cluster=2,order_list=list(1,2),with_seed = 111)
+result <- pickwin_surv_fun(maxn=30,prop=c(0.3,0.7),
+event_rate_A=c(-log(0.75)/2,-log(0.85)/2),
+trt_diff=c(log(0.75)/2-log(0.6)/2,log(0.85)/2-log(0.7)/2),
+d=c(0.02,0.02), arrival_rate=8,FUP=2,x=2,S=5000,
+study = "Constrained",cluster=2,order_list=list(1,2),with_seed = 111)
                            
 ## Pamb
 pamb=5000-sum(result$Corr)-sum(result$Error)
