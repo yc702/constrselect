@@ -556,7 +556,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                    if (max(event_time[[i]])<x){
                                      S_A_i=min(surv_prob[[i]])
                                    } else{
-                                     S_A_i <- summary(fit,t=x)$surv[i]
+                                     S_A_i <- summary(fitA,t=x)$surv[i]
                                    }
                                  }
 
@@ -580,7 +580,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                      S_B_i=min(surv_prob[[i]])
                                    } else{
 
-                                     S_B_i <- summary(fit,t=x)$surv[i]
+                                     S_B_i <- summary(fitB,t=x)$surv[i]
                                    }
                                  }
 
