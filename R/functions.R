@@ -183,7 +183,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
 #' @examples
 #' library(constrselect)
 #' out <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
-#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,order_list=list(1,c(2,3)))
+#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=6,order_list=list(1,c(2,3)))
 #' @rdname pickwin_bin_multiple
 #' @export
 #' @import doParallel
@@ -229,7 +229,6 @@ pickwin_bin_multiple <- function(n, pa_list,
                              data.frame(t(result))
 
                            }
-  on.exit(stopCluster(cl))
   colnames(bin_estimator) <- c(paste0("S_A",1:length(pa_list)),
                                paste0("S_B",1:length(pa_list)),"Correct","Error")
   return (bin_estimator)
@@ -408,7 +407,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
     t.ind[j] = ifelse(arrival.t[j]+event.t[j]<=tobs,1,0)
   }
 
-  return(cbind(time = t.event,ind = t.ind))
+  return(data.frame(cbind(time = t.event,ind = t.ind)))
 
 }
 
@@ -434,8 +433,8 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @examples
 #' library(constrselect)
 #' test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
-#' trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=3,FUP=6,
-#' x=6,S=10,study = "Constrained",cluster=1,order_list=list(1,c(2,3)),with_seed = 111)
+#' trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+#' x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
 #' @seealso
 #'  \code{\link[doParallel]{registerDoParallel}}
 #'  \code{\link[foreach]{foreach}}
@@ -449,7 +448,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @import dplyr
 pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                              trt_diff,d,arrival_rate,FUP,
-                             x,S,study = "Constrained",cluster=6,
+                             x,S,study = "Constrained",cluster,
                              order_list,with_seed=NULL) {
   #S is simulation times
   n<- ceiling(prop*maxn)
@@ -541,22 +540,22 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                              } else if (study == "Origin"){
 
-                               nrisk <- split(summary(fitA)$n.risk,id_A)
-                               nevent <- split(summary(fitA)$n.event,id_A)
+                               nrisk <- split(summary(fit)$n.risk,id_A)
+                               nevent <- split(summary(fit)$n.event,id_A)
 
-                               event_time <- split(summary(fitA)$time,id_A)
-                               surv_prob <- split(summary(fitA)$surv,id_A)
+                               event_time <- split(summary(fit)$time,id_A)
+                               surv_prob <- split(summary(fit)$surv,id_A)
 
                                S_A <- NULL
                                for (i in 1:length(event_time)){
 
-                                 if(length(event_time[[i]])==0){
+                                 if(length(event_time[[i]])==0 | is.null(event_time[[i]])){
                                    S_A_i=1
                                  } else{
                                    if (max(event_time[[i]])<x){
                                      S_A_i=min(surv_prob[[i]])
                                    } else{
-                                     S_A_i <- summary(fitA,t=x)$surv[i]
+                                     S_A_i <- summary(fit,t=x)$surv[i]
                                    }
                                  }
 
@@ -564,23 +563,23 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                }
 
 
-                               nrisk <- split(summary(fitB)$n.risk,id_B)
-                               nevent <- split(summary(fitB)$n.event,id_B)
+                               nrisk <- split(summary(fit)$n.risk,id_B)
+                               nevent <- split(summary(fit)$n.event,id_B)
 
-                               event_time <- split(summary(fitB)$time,id_B)
-                               surv_prob <- split(summary(fitB)$surv,id_B)
+                               event_time <- split(summary(fit)$time,id_B)
+                               surv_prob <- split(summary(fit)$surv,id_B)
 
                                S_B <- NULL
                                for (i in 1:length(event_time)){
 
-                                 if(length(event_time[[i]])==0){
+                                 if(length(event_time[[i]])==0 | is.null(event_time[[i]])){
                                    S_B_i=1
                                  } else{
                                    if (max(event_time[[i]])<x){
                                      S_B_i=min(surv_prob[[i]])
                                    } else{
 
-                                     S_B_i <- summary(fitB,t=x)$surv[i]
+                                     S_B_i <- summary(fit,t=x)$surv[i]
                                    }
                                  }
 
@@ -602,7 +601,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                             data.frame(t(S_A),t(S_B),corr,err)
                            }
-  on.exit(stopCluster(cl))
+
   colnames(surv_estimate) <- c(paste0("S_A",1:length(event_rate_A)),
                                paste0("S_B",1:length(event_rate_A)),"Corr","Error")
   return (surv_estimate)
