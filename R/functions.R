@@ -465,8 +465,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                              corr <- 0
                              err <- 0
-                             trtA <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_A),data.frame)
-                             trtB <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_A+trt_diff),data.frame)
+                             trtA <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_A,SIMPLIFY = FALSE),data.frame)
+                             trtB <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_A+trt_diff,SIMPLIFY = FALSE),data.frame)
                              names(trtA) <- paste("Strata",1:length(n))
                              names(trtB) <- paste("Strata",1:length(n))
 
