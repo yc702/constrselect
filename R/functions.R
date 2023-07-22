@@ -484,8 +484,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                              if (study =="Constrained"){
                                ## For treatment A
-                               nrisk <- split(summary(fitA)$n.risk,id_A)
-                               nevent <- split(summary(fitA)$n.event,id_A)
+                               nrisk <- split(summary(fitA, extend = TRUE)$n.risk,id_A)
+                               nevent <- split(summary(fitA, extend = TRUE)$n.event,id_A)
                                id_full <- as.numeric(factor(trtA$group))
 
                                event_time <- split(trtA$time,id_full)
@@ -524,8 +524,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                id_B <- trtB %>% filter(ind ==1)
                                ## Split by strata
                                id_B <- as.numeric(factor(id_B$group))
-                               nrisk <- split(summary(fitB)$n.risk,id_B)
-                               nevent <- split(summary(fitB)$n.event,id_B)
+                               nrisk <- split(summary(fitB, extend = TRUE)$n.risk,id_B)
+                               nevent <- split(summary(fitB, extend = TRUE)$n.event,id_B)
                                id_full <- as.numeric(factor(trtB$group))
 
                                event_time <- split(trtB$time,id_full)
@@ -540,11 +540,11 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
 
                              } else if (study == "Origin"){
 
-                               nrisk <- split(summary(fitA)$n.risk,id_A)
-                               nevent <- split(summary(fitA)$n.event,id_A)
+                               nrisk <- split(summary(fitA, extend = TRUE)$n.risk,id_A)
+                               nevent <- split(summary(fitA, extend = TRUE)$n.event,id_A)
 
-                               event_time <- split(summary(fitA)$time,id_A)
-                               surv_prob <- split(summary(fitA)$surv,id_A)
+                               event_time <- split(summary(fitA, extend = TRUE)$time,id_A)
+                               surv_prob <- split(summary(fitA, extend = TRUE)$surv,id_A)
 
                                S_A <- NULL
                                for (i in 1:length(event_time)){
@@ -555,7 +555,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                    if (max(event_time[[i]])<x){
                                      S_A_i=min(surv_prob[[i]])
                                    } else{
-                                     S_A_i <- summary(fitA,t=x)$surv[i]
+                                     S_A_i <- summary(fitA,t=x, extend = TRUE)$surv[i]
                                    }
                                  }
 
@@ -563,11 +563,11 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                }
 
 
-                               nrisk <- split(summary(fitB)$n.risk,id_B)
-                               nevent <- split(summary(fitB)$n.event,id_B)
+                               nrisk <- split(summary(fitB, extend = TRUE)$n.risk,id_B)
+                               nevent <- split(summary(fitB, extend = TRUE)$n.event,id_B)
 
-                               event_time <- split(summary(fitB)$time,id_B)
-                               surv_prob <- split(summary(fitB)$surv,id_B)
+                               event_time <- split(summary(fitB, extend = TRUE)$time,id_B)
+                               surv_prob <- split(summary(fitB, extend = TRUE)$surv,id_B)
 
                                S_B <- NULL
                                for (i in 1:length(event_time)){
@@ -579,7 +579,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                      S_B_i=min(surv_prob[[i]])
                                    } else{
 
-                                     S_B_i <- summary(fitB,t=x)$surv[i]
+                                     S_B_i <- summary(fitB,t=x, extend = TRUE)$surv[i]
                                    }
                                  }
 
