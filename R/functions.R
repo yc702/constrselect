@@ -591,12 +591,17 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                stop("This is an error message.")
                              }
 
+                            if(length(S_A)!=2) S_A=c(S_A,1)
+                            if(length(S_B)!=2) S_A=c(S_B,1)
+
                             if(all(S_A>S_B+d)){
                                corr <- corr+1
                             }
                             if(all(S_A<S_B+d)){
                               err <- err+1
                             }
+
+
 
 
                             data.frame(t(S_A),t(S_B),corr,err)
