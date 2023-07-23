@@ -183,7 +183,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
 #' @examples
 #' library(constrselect)
 #' out <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
-#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=6,order_list=list(1,c(2,3)))
+#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,order_list=list(1,c(2,3)))
 #' @rdname pickwin_bin_multiple
 #' @export
 #' @import doParallel
@@ -202,8 +202,8 @@ pickwin_bin_multiple <- function(n, pa_list,
                            .export = c("order_constrain","partial_order")) %dopar% {
                              corr <- 0
                              err <- 0
-                             Rk1 <- sapply(mapply(function(x,y) rbinom(x,size=1,y),Nk,pa_list),sum)
-                             Rk2 <- sapply(mapply(function(x,y) rbinom(x,size=1,y),Nk,pa_list+D),sum)
+                             Rk1 <- mapply(function(x,y) rbinom(1,size=x,y),Nk,pa_list)
+                             Rk2 <- mapply(function(x,y) rbinom(1,size=x,y),Nk,pa_list+D)
 
 
                              if (study == "Constrained"){
