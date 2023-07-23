@@ -432,9 +432,9 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
-#' test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
-#' trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
-#' x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
+# test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
+# trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+# x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
 #' @seealso
 #'  \code{\link[doParallel]{registerDoParallel}}
 #'  \code{\link[foreach]{foreach}}
@@ -591,8 +591,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                stop("This is an error message.")
                              }
 
-                            if(length(S_A)!=2) S_A=c(S_A,1)
-                            if(length(S_B)!=2) S_A=c(S_B,1)
+                            # if(length(S_A)!=length(event_rate_A)) S_A=c(S_A,rep(1,length(event_rate_A)-length(S_A)))
+                            # if(length(S_B)!=length(event_rate_A)) S_B=c(S_B,rep(1,length(event_rate_A)-length(S_B)))
 
                             if(all(S_A>S_B+d)){
                                corr <- corr+1
