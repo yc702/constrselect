@@ -74,7 +74,7 @@ test_that("Check Kg",{
 
 test_that("Check sim_surv",{
   result <- sim_surv(nmax=12,arrival_rate=4,event_rate=0.08,FUP=6)
-  expect_type(result,"double")
+  expect_type(result,"list")
   expect_equal(dim(result)[2],2)
 
 })
