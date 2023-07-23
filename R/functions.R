@@ -477,11 +477,11 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                              fitA <- survival::survfit(Surv(time, ind)~group,data=trtA)
                              id_A <- trtA %>% filter(ind ==1)
                              ## Split by strata
-                             id_A <- as.numeric(factor(id_A$group))
+                             id_A <- as.numeric(substr(id_A$group,7,8))
 
                              fitB <- survival::survfit(Surv(time, ind)~group,data=trtB)
                              id_B <- trtB %>% filter(ind ==1)
-                             id_B <- as.numeric(factor(id_B$group))
+                             id_B <- as.numeric(substr(id_B$group,7,8))
 
                              if (study =="Constrained"){
                                ## For treatment A
@@ -548,19 +548,20 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                surv_prob <- split(summary(fitA, extend = TRUE)$surv,id_A)
 
                                S_A <- NULL
-                               for (i in 1:length(event_time)){
+                               for (i in 1:length(event_rate_A)){
+                                 if (i %in% id_A){
 
-                                 if(length(event_time[[i]])==0 | is.null(event_time[[i]])){
-                                   S_A_i=1
-                                 } else{
-                                   if (max(event_time[[i]])<x){
-                                     S_A_i=min(surv_prob[[i]])
+                                   if (max(event_time[[as.character(i)]])<x){
+                                     S_A_i=min(surv_prob[[as.character(i)]])
                                    } else{
-                                     S_A_i <- summary(fitA,t=x, extend = TRUE)$surv[i]
+                                     S_A_i <- summary(fitA,t=x)$surv[i]
                                    }
-                                 }
 
-                                 S_A <- c(S_A,S_A_i)
+                                   S_A <- c(S_A,S_A_i)
+                                 } else{
+                                   S_A <- c(S_A,1)
+
+                                 }
                                }
 
 
@@ -571,22 +572,21 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                surv_prob <- split(summary(fitB, extend = TRUE)$surv,id_B)
 
                                S_B <- NULL
-                               for (i in 1:length(event_time)){
+                               for (i in 1:length(event_rate_A)){
+                                 if (i %in% id_B){
 
-                                 if(length(event_time[[i]])==0 | is.null(event_time[[i]])){
-                                   S_B_i=1
-                                 } else{
-                                   if (max(event_time[[i]])<x){
-                                     S_B_i=min(surv_prob[[i]])
+                                   if (max(event_time[[as.character(i)]])<x){
+                                     S_B_i=min(surv_prob[[as.character(i)]])
                                    } else{
-
-                                     S_B_i <- summary(fitB,t=x, extend = TRUE)$surv[i]
+                                     S_B_i <- summary(fitB,t=x)$surv[i]
                                    }
+
+                                   S_B <- c(S_B,S_B_i)
+                                 } else{
+                                   S_B <- c(S_B,1)
+
                                  }
-
-                                 S_B <- c(S_B,S_B_i)
                                }
-
 
                              } else{
                                stop("This is an error message.")
