@@ -554,7 +554,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                    if (max(event_time[[as.character(i)]])<x){
                                      S_A_i=min(surv_prob[[as.character(i)]])
                                    } else{
-                                     S_A_i <- summary(fitA,t=x)$surv[i]
+                                     S_A_i <- summary(fitA,t=x, extend = TRUE)$surv[i]
                                    }
 
                                    S_A <- c(S_A,S_A_i)
@@ -578,7 +578,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                    if (max(event_time[[as.character(i)]])<x){
                                      S_B_i=min(surv_prob[[as.character(i)]])
                                    } else{
-                                     S_B_i <- summary(fitB,t=x)$surv[i]
+                                     S_B_i <- summary(fitB,t=x, extend = TRUE)$surv[i]
                                    }
 
                                    S_B <- c(S_B,S_B_i)
