@@ -192,7 +192,7 @@ pickwin_bin_multiple <- function(n, pa_list,
                                  D=c(0.15,0.15,0.15), d = c(0.05,0.05,0.05),
                                  prop.strat=c(0.2,0.3,0.5),study="Constrained",
                                  S,cluster = 6,order_list,with_seed=NULL) {
-  Nk<- ceiling(prop.strat*n)
+  Nk<- round(prop.strat*n)
   cl <- makeCluster(cluster)
   registerDoParallel(cl)
 
@@ -452,7 +452,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                              x,S,study = "Constrained",cluster,
                              order_list,with_seed=NULL) {
   #S is simulation times
-  n<- ceiling(prop*maxn)
+  n<- round(prop*maxn)
 
   cl <- makeCluster(cluster)
   doParallel::registerDoParallel(cl)
