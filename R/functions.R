@@ -138,7 +138,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
           }
 
           ## Error cases
-          if (all(p_2<p_1+d)){
+          if (all(p_2+d<p_1)){
 
             pp_err <- pp_err+dbinom(i1, size=n1, prob=p1)*dbinom(i2, size=n2, prob=p1+strata_diff)*
               dbinom(j1, size=n1, prob=p1+D[1])*dbinom(j2, size=n2, prob=p1+strata_diff+D[2])
@@ -221,7 +221,7 @@ pickwin_bin_multiple <- function(n, pa_list,
                              if(all(p_2>p_1+d)){
                                corr <- corr+1
                              }
-                             if(all(p_2<p_1+d)){
+                             if(all(p_2+d<p_1)){
                                err <- err+1
                              }
 
@@ -231,7 +231,7 @@ pickwin_bin_multiple <- function(n, pa_list,
                            }
   on.exit(stopCluster(cl))
   colnames(bin_estimator) <- c(paste0("S_A",1:length(pa_list)),
-                               paste0("S_B",1:length(pa_list)),"Correct","Error")
+                               paste0("S_B",1:length(pa_list)),"Corr","Error")
   return (bin_estimator)
 
 }
@@ -484,6 +484,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                              id_B <- as.numeric(substr(id_B$group,7,8))
 
                              if (study =="Constrained"){
+
+
                                ## For treatment A
                                nrisk <- split(summary(fitA, extend = TRUE)$n.risk,id_A)
                                nevent <- split(summary(fitA, extend = TRUE)$n.event,id_A)
@@ -492,6 +494,20 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                event_time <- split(trtA$time,id_full)
                                event_ind <- split(trtA$ind,id_full)
 
+                               if (length(unique(id_A))==0 | length(unique(id_B))==0){
+                                 stop("There is no event for all stratum.")
+                               }
+                               if (length(unique(id_A))<length(n)){
+                                 missing_id <- setdiff(1:length(n),unique(id_A))
+                                 for (i in 1:length(missing_id)){
+                                   nrisk <- append(nrisk,list(n[missing_id[i]]),missing_id[i]-1)
+                                   names(nrisk)[missing_id[i]] <- as.character(missing_id[i])
+
+                                   nevent <- append(nevent,list(0),missing_id[i]-1)
+                                   names(nevent)[missing_id[i]] <- as.character(missing_id[i])
+
+                                 }
+                               }
 
                                fn <- function(q){
 
@@ -522,15 +538,24 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                S_A <- exp(q_optim)
 
                                ## For treatment B
-                               id_B <- trtB %>% filter(ind ==1)
-                               ## Split by strata
-                               id_B <- as.numeric(factor(id_B$group))
                                nrisk <- split(summary(fitB, extend = TRUE)$n.risk,id_B)
                                nevent <- split(summary(fitB, extend = TRUE)$n.event,id_B)
                                id_full <- as.numeric(factor(trtB$group))
 
                                event_time <- split(trtB$time,id_full)
                                event_ind <- split(trtB$ind,id_full)
+
+                               if (length(unique(id_B))<length(n)){
+                                 missing_id <- setdiff(1:length(n),unique(id_B))
+                                 for (i in 1:length(missing_id)){
+                                   nrisk <- append(nrisk,list(n[missing_id[i]]),missing_id[i]-1)
+                                   names(nrisk)[missing_id[i]] <- as.character(missing_id[i])
+
+                                   nevent <- append(nevent,list(0),missing_id[i]-1)
+                                                    names(nevent)[missing_id[i]] <- as.character(missing_id[i])
+
+                                 }
+                               }
 
                                ## constrained survival prob
                                q_optim <- constrOptim(start_surv, fn, grad=grr,
@@ -595,15 +620,12 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                             # if(length(S_A)!=length(event_rate_A)) S_A=c(S_A,rep(1,length(event_rate_A)-length(S_A)))
                             # if(length(S_B)!=length(event_rate_A)) S_B=c(S_B,rep(1,length(event_rate_A)-length(S_B)))
 
-                            if(all(S_A>S_B+d)){
+                            if(all(S_A+d<S_B)){
                                corr <- corr+1
                             }
-                            if(all(S_A<S_B+d)){
+                            if(all(S_A>S_B+d)){
                               err <- err+1
                             }
-
-
-
 
                             data.frame(t(S_A),t(S_B),corr,err)
                            }
