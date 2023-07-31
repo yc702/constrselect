@@ -494,10 +494,14 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                event_time <- split(trtA$time,id_full)
                                event_ind <- split(trtA$ind,id_full)
 
-                               if (length(unique(id_A))==0 | length(unique(id_B))==0){
-                                 stop("There is no event for all stratum.")
-                               }
-                               if (length(unique(id_A))<length(n)){
+                               if (length(unique(id_A))==0){
+                                 # stop("There is no event for all stratum.")
+                                 nrisk <- as.list(n)
+                                 nevent <- as.list(rep(0,length(event_rate_A)))
+                                 names(nrisk) <- as.character(1: length(event_rate_A))
+                                 names(nevent) <- as.character(1: length(event_rate_A))
+
+                               } else if (length(unique(id_A))<length(n)){
                                  missing_id <- setdiff(1:length(n),unique(id_A))
                                  for (i in 1:length(missing_id)){
                                    nrisk <- append(nrisk,list(n[missing_id[i]]),missing_id[i]-1)
@@ -545,7 +549,14 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                event_time <- split(trtB$time,id_full)
                                event_ind <- split(trtB$ind,id_full)
 
-                               if (length(unique(id_B))<length(n)){
+                               if (length(unique(id_B))==0){
+                                 # stop("There is no event for all stratum.")
+                                 nrisk <- as.list(n)
+                                 nevent <- as.list(rep(0,length(event_rate_A)))
+                                 names(nrisk) <- as.character(1: length(event_rate_A))
+                                 names(nevent) <- as.character(1: length(event_rate_A))
+
+                               } else if  (length(unique(id_B))<length(n)){
                                  missing_id <- setdiff(1:length(n),unique(id_B))
                                  for (i in 1:length(missing_id)){
                                    nrisk <- append(nrisk,list(n[missing_id[i]]),missing_id[i]-1)
