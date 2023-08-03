@@ -193,6 +193,8 @@ pickwin_bin_multiple <- function(n, pa_list,
                                  prop.strat=c(0.2,0.3,0.5),study="Constrained",
                                  S,cluster = 6,order_list,with_seed=NULL) {
   Nk<- round(prop.strat*n)
+  Nk[length(pa_list)] <- n - sum(Nk[1:(length(pa_list)-1)])
+
   cl <- makeCluster(cluster)
   registerDoParallel(cl)
 
@@ -318,7 +320,7 @@ Kg <- function(x,qn,nrisk,nevent,event_time,event_ind){
         }
         return(abs(left-qn))
       }
-      k_hat = optimize(fr, c(-30, 30))$minimum
+      k_hat = optimize(fr, c(-50, 50))$minimum
 
       k_hat <- max(k_hat,-Ng(x,event_time))
       return(k_hat)
@@ -453,6 +455,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                              order_list,with_seed=NULL) {
   #S is simulation times
   n<- round(prop*maxn)
+  n[length(prop)] <- maxn - sum(n[1:(length(prop)-1)])
 
   cl <- makeCluster(cluster)
   doParallel::registerDoParallel(cl)
@@ -563,7 +566,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                    names(nrisk)[missing_id[i]] <- as.character(missing_id[i])
 
                                    nevent <- append(nevent,list(0),missing_id[i]-1)
-                                                    names(nevent)[missing_id[i]] <- as.character(missing_id[i])
+                                   names(nevent)[missing_id[i]] <- as.character(missing_id[i])
 
                                  }
                                }
@@ -628,17 +631,17 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                stop("This is an error message.")
                              }
 
-                            # if(length(S_A)!=length(event_rate_A)) S_A=c(S_A,rep(1,length(event_rate_A)-length(S_A)))
-                            # if(length(S_B)!=length(event_rate_A)) S_B=c(S_B,rep(1,length(event_rate_A)-length(S_B)))
+                             # if(length(S_A)!=length(event_rate_A)) S_A=c(S_A,rep(1,length(event_rate_A)-length(S_A)))
+                             # if(length(S_B)!=length(event_rate_A)) S_B=c(S_B,rep(1,length(event_rate_A)-length(S_B)))
 
-                            if(all(S_A+d<S_B)){
+                             if(all(S_A+d<S_B)){
                                corr <- corr+1
-                            }
-                            if(all(S_A>S_B+d)){
-                              err <- err+1
-                            }
+                             }
+                             if(all(S_A>S_B+d)){
+                               err <- err+1
+                             }
 
-                            data.frame(t(S_A),t(S_B),corr,err)
+                             data.frame(t(S_A),t(S_B),corr,err)
                            }
   on.exit(stopCluster(cl))
 
@@ -647,6 +650,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
   return (surv_estimate)
 
 }
+
 
 
 
