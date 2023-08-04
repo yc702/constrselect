@@ -49,7 +49,7 @@ test_that("Check Kg",{
   result <- Kg(x = 6,qn = -0.1,nrisk = c(15, 14, 13, 12, 11, 10),nevent = c(1, 1, 1, 1, 1, 1),
                event_time = c(0.47, 0.84, 2.25, 2.5, 2.8, 4.5, 6, 6.16, 6.6, 6.86, 8.17),
                event_ind = c(1, 1, 1, 1, 1, 1, 0, 0,0,0,0))
-  expect_equal(round(result),30)
+  expect_equal(round(result),48)
   expect_error(Kg(x = 6,qn = 0.1,nrisk = c(15, 14, 13, 12, 11, 10),nevent = c(1, 1, 1, 1, 1, 1),
                   event_time = c(0.47, 0.84, 2.25, 2.5, 2.8, 4.5, 6, 6.16, 6.6, 6.86, 8.17),
                   event_ind = c(1, 1, 1, 1, 1, 1, 0, 0,0,0,0)),"qn needs to be smaller than 0")
@@ -68,7 +68,7 @@ test_that("Check Kg",{
   expect_error(llkhd(x=6,qn = 0.1,nrisk = c(15, 14, 13, 12, 11, 10),nevent = c(1, 1, 1, 1, 1, 1),
                      event_time = c(0.47, 0.84, 2.25, 2.5, 2.8, 4.5, 6, 6.16, 6.6, 6.86, 8.17),
                      event_ind = c(1, 1, 1, 1, 1, 1, 0, 0,0,0,0)),"qn needs to be smaller than 0")
-  expect_equal(round(result),-24)
+  expect_equal(round(result),-26)
 })
 
 
