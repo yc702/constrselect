@@ -55,7 +55,7 @@ result <- pickwin_bin_multiple(n = 58, pa_list = c(0.3,0.4,0.5), D=c(0.15,0.15,0
 prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 5000,cluster=6,order_list=list(1,2,3))
 
 ## lambda calculation with rho = 0.5
-(sum(result$Corr)+0.5*(5000-sum(result$Corr)-sum(result$Error)))/5000
+(sum(result$Corr)+0.5*(5000-sum(result$Corr)-sum(result$Wrong)))/5000
 ## 0.809841 
 ```
 
@@ -77,7 +77,7 @@ d=c(0.02,0.02), arrival_rate=8,FUP=2,x=2,S=8000,
 study = "Constrained",cluster=2,order_list=list(1,2),with_seed = 111)
                            
 ## Pamb
-pamb=8000-sum(result$Corr)-sum(result$Error)
+pamb=8000-sum(result$Corr)-sum(result$Wrong)
 
 ## lambda calculation with rho = 0.5
 (sum(result$Corr)+(pamb)/2)/8000

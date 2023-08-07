@@ -109,7 +109,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
   n1<- ceiling(prop.strat*n)
   n2<- n-n1
   Nk <- c(n1,n2)
-  pp_err <- 0
+  pp_wrong <- 0
   pp_corr <- 0
   for (i1 in 0:n1){
     for (i2 in 0:n2){
@@ -137,10 +137,10 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
             stop("This is an error message")
           }
 
-          ## Error cases
+          ## Wrong cases
           if (all(p_2+d<p_1)){
 
-            pp_err <- pp_err+dbinom(i1, size=n1, prob=p1)*dbinom(i2, size=n2, prob=p1+strata_diff)*
+            pp_wrong <- pp_wrong+dbinom(i1, size=n1, prob=p1)*dbinom(i2, size=n2, prob=p1+strata_diff)*
               dbinom(j1, size=n1, prob=p1+D[1])*dbinom(j2, size=n2, prob=p1+strata_diff+D[2])
           }
 
@@ -157,7 +157,7 @@ pickwin_bin_exact<- function(n, p1, strata_diff,
     }
 
   }
-  p_amb = 1-pp_err-pp_corr
+  p_amb = 1-pp_wrong-pp_corr
   output <- c(pcorr=pp_corr, pamb=p_amb)
 
   return(output)
@@ -203,7 +203,7 @@ pickwin_bin_multiple <- function(n, pa_list,
   bin_estimator <- foreach(1:S, .combine = rbind,.packages = c("quadprog"),
                            .export = c("order_constrain","partial_order")) %dopar% {
                              corr <- 0
-                             err <- 0
+                             wrong <- 0
                              Rk1 <- mapply(function(x,y) rbinom(1,size=x,y),Nk,pa_list)
                              Rk2 <- mapply(function(x,y) rbinom(1,size=x,y),Nk,pa_list+D)
 
@@ -224,16 +224,16 @@ pickwin_bin_multiple <- function(n, pa_list,
                                corr <- corr+1
                              }
                              if(all(p_2+d<p_1)){
-                               err <- err+1
+                               wrong <- wrong+1
                              }
 
-                             result <- c(p_1,p_2,corr,err)
+                             result <- c(p_1,p_2,corr,wrong)
                              data.frame(t(result))
 
                            }
   on.exit(stopCluster(cl))
   colnames(bin_estimator) <- c(paste0("S_A",1:length(pa_list)),
-                               paste0("S_B",1:length(pa_list)),"Corr","Error")
+                               paste0("S_B",1:length(pa_list)),"Corr","Wrong")
   return (bin_estimator)
 
 }
@@ -468,7 +468,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                            .packages = c("dplyr","survival")) %dopar% {
 
                              corr <- 0
-                             err <- 0
+                             wrong <- 0
                              trtA <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_A,SIMPLIFY = FALSE),data.frame)
                              trtB <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_A+trt_diff,SIMPLIFY = FALSE),data.frame)
                              names(trtA) <- paste("Strata",1:length(n))
@@ -638,15 +638,15 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_A,
                                corr <- corr+1
                              }
                              if(all(S_A>S_B+d)){
-                               err <- err+1
+                               wrong <- wrong+1
                              }
 
-                             data.frame(t(S_A),t(S_B),corr,err)
+                             data.frame(t(S_A),t(S_B),corr,wrong)
                            }
   on.exit(stopCluster(cl))
 
   colnames(surv_estimate) <- c(paste0("S_A",1:length(event_rate_A)),
-                               paste0("S_B",1:length(event_rate_A)),"Corr","Error")
+                               paste0("S_B",1:length(event_rate_A)),"Corr","Wrong")
   return (surv_estimate)
 
 }
