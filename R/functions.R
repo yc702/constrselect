@@ -232,8 +232,8 @@ pickwin_bin_multiple <- function(n, pa_list,
 
                            }
   on.exit(stopCluster(cl))
-  colnames(bin_estimator) <- c(paste0("S_A",1:length(pa_list)),
-                               paste0("S_B",1:length(pa_list)),"Corr","Wrong")
+  colnames(bin_estimator) <- c(paste0("P_A",1:length(pa_list)),
+                               paste0("P_B",1:length(pa_list)),"Corr","Wrong")
   return (bin_estimator)
 
 }
