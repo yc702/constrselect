@@ -6,7 +6,7 @@
 \usage{
 pickwin_bin_multiple(
   n,
-  pa_list,
+  p_inf,
   D = c(0.15, 0.15, 0.15),
   d = c(0.05, 0.05, 0.05),
   prop.strat = c(0.2, 0.3, 0.5),
@@ -20,7 +20,7 @@ pickwin_bin_multiple(
 \arguments{
 \item{n}{Total sample size for each treatment arm.}
 
-\item{pa_list}{A vector of response probabilities for the inferior treatment arm for each stratum.}
+\item{p_inf}{A vector of response probabilities for the inferior treatment arm for each stratum.}
 
 \item{D}{A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15, 0.15)}
 

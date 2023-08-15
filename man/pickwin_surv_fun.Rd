@@ -7,8 +7,8 @@
 pickwin_surv_fun(
   maxn,
   prop,
-  event_rate_A,
-  trt_diff,
+  event_rate_inf,
+  event_rate_sup,
   d,
   arrival_rate,
   FUP,
@@ -25,9 +25,9 @@ pickwin_surv_fun(
 
 \item{prop}{The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)}
 
-\item{event_rate_A}{The exponential event rate for patients in the inferior treatment arm}
+\item{event_rate_inf}{The exponential event rate for patients in the inferior treatment arm}
 
-\item{trt_diff}{A vector of two treatment arms differences for each stratum, Default: c(0.1, 0.1,0.1)}
+\item{event_rate_sup}{The exponential event rate for patients in the superior treatment arm}
 
 \item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)}
 
@@ -59,6 +59,7 @@ DETAILS
 }
 \examples{
 library(constrselect)
+## Use exponential survival to specify event rate for month 6.
 }
 \seealso{
 \code{\link[doParallel]{registerDoParallel}}

@@ -16,7 +16,7 @@ test_that("Check order_constrain",{
 
 
 test_that("Check pickwin_bin_exact",{
-  result <- pickwin_bin_exact(n = 50, p1 = 0.25, strata_diff = 0.05,
+  result <- pickwin_bin_exact(n = 50, p_inf =c(0.25,0.3),
                               D=c(0.15,0.15),d=c(0.05,0.05),
                               prop.strat=0.4,study="Constrained")
   expect_vector(result)
@@ -24,13 +24,13 @@ test_that("Check pickwin_bin_exact",{
 })
 
 test_that("Check pickwin_bin_multiple",{
-  pa_list = c(0.25,0.28,0.28)
-  result <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28),
+  p_inf = c(0.25,0.28,0.28)
+  result <- pickwin_bin_multiple(n = 50, p_inf = c(0.25,0.28,0.28),
                                  D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
                                  prop.strat=c(0.3,0.3,0.4),study="Constrained",
                                  S = 100,cluster=2,order_list=list(1,c(2,3)))
   expect_s3_class(result,"data.frame")
-  expect_equal(dim(result)[2],2*length(pa_list)+2)
+  expect_equal(dim(result)[2],2*length(p_inf)+2)
 })
 
 
@@ -81,12 +81,12 @@ test_that("Check sim_surv",{
 
 
 test_that("Check pickwin_surv_fun",{
-  event_rate_A=c(0.08,0.05, 0.05)
-  result <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_A=c(0.08,0.05, 0.05),
-                             trt_diff=c(0.1,0.1,0.1),d=c(0.05,0.05,0.05), arrival_rate=3,FUP=6,
+  event_rate_inf=c(-log(0.5)/6,-log(0.6)/6,-log(0.6)/6)
+  result <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_inf=c(-log(0.5)/6,-log(0.6)/6,-log(0.6)/6),
+                             event_rate_sup=c(-log(0.7)/6,-log(0.8)/6,-log(0.8)/6),d=c(0.05,0.05,0.05), arrival_rate=3,FUP=6,
                              x=6,S=100,study = "Constrained",cluster=2,order_list=list(1,c(2,3)),with_seed = 111)
   expect_s3_class(result,"data.frame")
-  expect_equal(dim(result)[2],2*length(event_rate_A)+2)
+  expect_equal(dim(result)[2],2*length(event_rate_inf)+2)
 
 })
 

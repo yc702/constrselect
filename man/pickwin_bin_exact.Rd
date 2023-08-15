@@ -6,8 +6,7 @@
 \usage{
 pickwin_bin_exact(
   n,
-  p1,
-  strata_diff,
+  p_inf,
   D = c(0.15, 0.15),
   d = c(0.05, 0.05),
   prop.strat = 0.3,
@@ -17,10 +16,7 @@ pickwin_bin_exact(
 \arguments{
 \item{n}{Total sample size for all strata.}
 
-\item{p1}{A vector of true probability for inferior treatment stratum arm.}
-
-\item{strata_diff}{The strata difference between stratum 1 and 2 for both treatment arm.
-The two treatment arms have equal strata difference.}
+\item{p_inf}{A vector of true probability for inferior treatment stratum arm.}
 
 \item{D}{A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15)}
 
@@ -31,7 +27,7 @@ The two treatment arms have equal strata difference.}
 \item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: NULL}
 }
 \value{
-Return a vector of P_corr and P_amb
+Return a vector of pcorr and pamb representing $P_{corr}$ and $P_{amb}$
 }
 \description{
 Estimation of P_corr and P_amb for selection design between
@@ -42,5 +38,5 @@ DETAILS
 }
 \examples{
 library(constrselect)
-pickwin_bin_exact(n = 50, p1 = 0.25, strata_diff = 0.05, D=c(0.15,0.15),d=c(0.05,0.05),prop.strat=0.4,study="Constrained")
+pickwin_bin_exact(n = 50, p_inf = c(0.25,0.3), D=c(0.15,0.15),d=c(0.05,0.05),prop.strat=0.4,study="Constrained")
 }
