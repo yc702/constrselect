@@ -35,12 +35,12 @@ Suppose the lymph node only group will have higher response rate than the other 
 ``` r
 library(constrselect)
 ## basic example code
-result = pickwin_bin_exact(n = 20, p1 = 0.4, strata_diff = 0.1,
+result = pickwin_bin_exact(n = 20, p_inf = c(0.4,0.5),
 D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.3,study="Constrained")
 
 ## lambda calculation with rho = 0.5
 result[1]+0.5*result[2]
-## 0.809841 
+## 0.8
 ```
 
 #### More than two strata for randomization
@@ -51,12 +51,12 @@ We assume three strata of the inferior treatment arm have response rates (0.3,0.
 ``` r
 library(constrselect)
 ## basic example code
-result <- pickwin_bin_multiple(n = 58, pa_list = c(0.3,0.4,0.5), D=c(0.15,0.15,0.15),d=c(0.02,0.02,0.02),
+result <- pickwin_bin_multiple(n = 58, p_inf = c(0.3,0.4,0.5), D=c(0.15,0.15,0.15),d=c(0.02,0.02,0.02),
 prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 5000,cluster=6,order_list=list(1,2,3))
 
 ## lambda calculation with rho = 0.5
 (sum(result$Corr)+0.5*(5000-sum(result$Corr)-sum(result$Wrong)))/5000
-## 0.809841 
+## 0.8 
 ```
 
 
@@ -71,8 +71,8 @@ Suppose the two strata of the inferior treatment arm have 2-year EFS (0.6, 0.7),
 ## basic example code
 
 result <- pickwin_surv_fun(maxn=25,prop=c(0.3,0.7),
-event_rate_A=c(-log(0.6)/2,-log(0.7)/2),
-trt_diff=c(log(0.6)/2-log(0.75)/2,log(0.7)/2-log(0.85)/2),
+surv_inf=c(0.6,0.7),
+surv_sup=c(0.75,0.85),
 d=c(0.02,0.02), arrival_rate=8,FUP=2,x=2,S=8000,
 study = "Constrained",cluster=2,order_list=list(1,2),with_seed = 111)
                            

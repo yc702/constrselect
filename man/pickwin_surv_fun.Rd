@@ -7,8 +7,8 @@
 pickwin_surv_fun(
   maxn,
   prop,
-  event_rate_inf,
-  event_rate_sup,
+  surv_inf,
+  surv_sup,
   d,
   arrival_rate,
   FUP,
@@ -25,9 +25,9 @@ pickwin_surv_fun(
 
 \item{prop}{The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)}
 
-\item{event_rate_inf}{The exponential event rate for patients in the inferior treatment arm}
+\item{surv_inf}{The exponential survival probability for patients in the inferior treatment arm}
 
-\item{event_rate_sup}{The exponential event rate for patients in the superior treatment arm}
+\item{surv_sup}{The exponential survival probability for patients in the superior treatment arm}
 
 \item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)}
 

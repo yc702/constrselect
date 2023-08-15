@@ -180,7 +180,7 @@ pickwin_bin_exact<- function(n, p_inf,
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
-#' out <- pickwin_bin_multiple(n = 50, pa_list = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
+#' out <- pickwin_bin_multiple(n = 50, p_inf = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
 #' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,order_list=list(1,c(2,3)))
 #' @rdname pickwin_bin_multiple
 #' @export
@@ -418,8 +418,8 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' For each simulation setting, get whether it is correctly or wrongly counted in.
 #' @param maxn Number of patients need to be accrued for each treatment arm
 #' @param prop The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)
-#' @param event_rate_inf The exponential event rate for patients in the inferior treatment arm
-#' @param event_rate_sup The exponential event rate for patients in the superior treatment arm
+#' @param surv_inf The exponential survival probability for patients in the inferior treatment arm
+#' @param surv_sup The exponential survival probability for patients in the superior treatment arm
 #' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)
 #' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year
 #' @param FUP Additional follow up time after the last patient is accrued
@@ -434,8 +434,8 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @examples
 #' library(constrselect)
 #' ## Use exponential survival to specify event rate for month 6.
-# test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),event_rate_inf=c(-log(0.5)/6,-log(0.6)/6,-log(0.6)/6),
-# event_rate_sup=c(-log(0.7)/6,-log(0.8)/6,-log(0.8)/6),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
+# test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),surv_inf=c(0.5,0.6,0.6),
+# surv_sup=c(0.7,0.8,0.8),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
 # x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
 #' @seealso
 #'  \code{\link[doParallel]{registerDoParallel}}
@@ -448,8 +448,8 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @import foreach
 #' @import survival
 #' @import dplyr
-pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
-                             event_rate_sup,d,arrival_rate,FUP,
+pickwin_surv_fun <- function(maxn,prop,surv_inf,
+                             surv_sup,d,arrival_rate,FUP,
                              x,S,study = "Constrained",cluster,
                              order_list,with_seed=NULL) {
   #S is simulation times
@@ -468,8 +468,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
 
                              corr <- 0
                              wrong <- 0
-                             trtA <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_inf,SIMPLIFY = FALSE),data.frame)
-                             trtB <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,event_rate_sup,SIMPLIFY = FALSE),data.frame)
+                             trtA <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,-log(surv_inf)/x,SIMPLIFY = FALSE),data.frame)
+                             trtB <- lapply(mapply(function(x,y) sim_surv(x,arrival_rate,event_rate=y,FUP),n,-log(surv_sup)/x,SIMPLIFY = FALSE),data.frame)
                              names(trtA) <- paste("Strata",1:length(n))
                              names(trtB) <- paste("Strata",1:length(n))
 
@@ -499,9 +499,9 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
                                if (length(unique(id_A))==0){
                                  # stop("There is no event for all stratum.")
                                  nrisk <- as.list(n)
-                                 nevent <- as.list(rep(0,length(event_rate_inf)))
-                                 names(nrisk) <- as.character(1: length(event_rate_inf))
-                                 names(nevent) <- as.character(1: length(event_rate_inf))
+                                 nevent <- as.list(rep(0,length(surv_inf)))
+                                 names(nrisk) <- as.character(1: length(surv_inf))
+                                 names(nevent) <- as.character(1: length(surv_inf))
 
                                } else if (length(unique(id_A))<length(n)){
                                  missing_id <- setdiff(1:length(n),unique(id_A))
@@ -554,9 +554,9 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
                                if (length(unique(id_B))==0){
                                  # stop("There is no event for all stratum.")
                                  nrisk <- as.list(n)
-                                 nevent <- as.list(rep(0,length(event_rate_inf)))
-                                 names(nrisk) <- as.character(1: length(event_rate_inf))
-                                 names(nevent) <- as.character(1: length(event_rate_inf))
+                                 nevent <- as.list(rep(0,length(surv_inf)))
+                                 names(nrisk) <- as.character(1: length(surv_inf))
+                                 names(nevent) <- as.character(1: length(surv_inf))
 
                                } else if  (length(unique(id_B))<length(n)){
                                  missing_id <- setdiff(1:length(n),unique(id_B))
@@ -586,7 +586,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
                                surv_prob <- split(summary(fitA, extend = TRUE)$surv,id_A)
 
                                S_A <- NULL
-                               for (i in 1:length(event_rate_inf)){
+                               for (i in 1:length(surv_inf)){
                                  if (i %in% id_A){
 
                                    if (max(event_time[[as.character(i)]])<x){
@@ -610,7 +610,7 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
                                surv_prob <- split(summary(fitB, extend = TRUE)$surv,id_B)
 
                                S_B <- NULL
-                               for (i in 1:length(event_rate_inf)){
+                               for (i in 1:length(surv_inf)){
                                  if (i %in% id_B){
 
                                    if (max(event_time[[as.character(i)]])<x){
@@ -630,8 +630,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
                                stop("This is an error message.")
                              }
 
-                             # if(length(S_A)!=length(event_rate_inf)) S_A=c(S_A,rep(1,length(event_rate_inf)-length(S_A)))
-                             # if(length(S_B)!=length(event_rate_inf)) S_B=c(S_B,rep(1,length(event_rate_inf)-length(S_B)))
+                             # if(length(S_A)!=length(surv_inf)) S_A=c(S_A,rep(1,length(surv_inf)-length(S_A)))
+                             # if(length(S_B)!=length(surv_inf)) S_B=c(S_B,rep(1,length(surv_inf)-length(S_B)))
 
                              if(all(S_A+d<S_B)){
                                corr <- corr+1
@@ -644,8 +644,8 @@ pickwin_surv_fun <- function(maxn,prop,event_rate_inf,
                            }
   on.exit(stopCluster(cl))
 
-  colnames(surv_estimate) <- c(paste0("S_A",1:length(event_rate_inf)),
-                               paste0("S_B",1:length(event_rate_inf)),"Corr","Wrong")
+  colnames(surv_estimate) <- c(paste0("S_A",1:length(surv_inf)),
+                               paste0("S_B",1:length(surv_inf)),"Corr","Wrong")
   return (surv_estimate)
 
 }
