@@ -23,7 +23,8 @@ Imports:
 	parallel,
 	quadprog,
 	survival,
-	dplyr
+	dplyr,
+	doRNG
 Suggests: 
     covr,
     testthat (>= 3.0.0)

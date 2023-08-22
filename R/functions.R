@@ -185,6 +185,7 @@ pickwin_bin_exact<- function(n, p_inf,
 #' @rdname pickwin_bin_multiple
 #' @export
 #' @import doParallel
+#' @import doRNG
 #' @import foreach
 pickwin_bin_multiple <- function(n, p_inf,
                                  D=c(0.15,0.15,0.15), d = c(0.05,0.05,0.05),
@@ -199,7 +200,7 @@ pickwin_bin_multiple <- function(n, p_inf,
   if(!is.null(with_seed)){set.seed(with_seed, kind = "L'Ecuyer-CMRG")}
 
   bin_estimator <- foreach(1:S, .combine = rbind,.packages = c("quadprog"),
-                           .export = c("order_constrain","partial_order")) %dopar% {
+                           .export = c("order_constrain","partial_order")) %dorng% {
                              corr <- 0
                              wrong <- 0
                              Rk1 <- mapply(function(x,y) rbinom(1,size=x,y),Nk,p_inf)
@@ -446,6 +447,7 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @import doParallel
 #' @import parallel
 #' @import foreach
+#' @import doRNG
 #' @import survival
 #' @import dplyr
 pickwin_surv_fun <- function(maxn,prop,surv_inf,
@@ -464,7 +466,7 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
   surv_estimate <- foreach(1:S, .combine = rbind,
                            .export = c("order_constrain","partial_order",
                                        "sim_surv","llkhd","Kg","Ng","Mg"),
-                           .packages = c("dplyr","survival")) %dopar% {
+                           .packages = c("dplyr","survival")) %dorng% {
 
                              corr <- 0
                              wrong <- 0
