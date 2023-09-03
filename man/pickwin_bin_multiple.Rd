@@ -26,7 +26,7 @@ pickwin_bin_multiple(
 
 \item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)}
 
-\item{prop.strat}{The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)}
+\item{prop.strat}{The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5)}
 
 \item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'}
 

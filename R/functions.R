@@ -91,7 +91,7 @@ order_constrain<-function(r,n,order_list){
 #' @param p_inf A vector of true probability for inferior treatment stratum arm.
 #' @param D A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15)
 #' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05)
-#' @param prop.strat The sample size proportion for two strata, Default: 0.3
+#' @param prop.strat The sample size proportion for the inferior strata, Default: 0.3
 #' @param study Could be either "Constrained" or "Origin" for the two type of study design, Default: NULL
 #' @return Return a vector of pcorr and pamb representing $P_{corr}$ and $P_{amb}$
 #' @details DETAILS
@@ -170,7 +170,7 @@ pickwin_bin_exact<- function(n, p_inf,
 #' @param p_inf A vector of response probabilities for the inferior treatment arm for each stratum.
 #' @param D A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15, 0.15)
 #' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)
-#' @param prop.strat The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)
+#' @param prop.strat The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5)
 #' @param study Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'
 #' @param S Number of simulation
 #' @param cluster Number of parallel running CPU cores, Default: 6

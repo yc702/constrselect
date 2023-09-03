@@ -22,7 +22,7 @@ pickwin_bin_exact(
 
 \item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05)}
 
-\item{prop.strat}{The sample size proportion for two strata, Default: 0.3}
+\item{prop.strat}{The sample size proportion for the inferior strata, Default: 0.3}
 
 \item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: NULL}
 }
