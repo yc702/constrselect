@@ -489,7 +489,6 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
 
                              if (study =="Constrained"){
 
-
                                ## For treatment A
                                nrisk <- split(summary(fitA, extend = TRUE)$n.risk,id_A)
                                nevent <- split(summary(fitA, extend = TRUE)$n.event,id_A)
@@ -535,15 +534,39 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
 
                                ## partial ordering according to order list
                                A_lower <- partial_order(order_list)
-
                                ui <- rbind(A_lower,A_upper)
                                start_surv <- sort(runif(length(n),-0.3,-0.1))
 
-                               ## constrained survival prob
-                               q_optim <- constrOptim(start_surv, fn, grad=grr,
-                                                      ui = ui, ci = rep(0,nrow(ui)))$par
+                               if (all(rowSums(A_lower*summary(fitA,t=x, extend = TRUE)$surv)>=0)){
 
-                               S_A <- exp(q_optim)
+                                 event_time <- split(summary(fitA, extend = TRUE)$time,id_A)
+                                 surv_prob <- split(summary(fitA, extend = TRUE)$surv,id_A)
+                                 S_A <- NULL
+                                 for (i in 1:length(surv_inf)){
+                                   if (i %in% id_A){
+
+                                     if (max(event_time[[as.character(i)]])<x){
+                                       S_A_i=min(surv_prob[[as.character(i)]])
+                                     } else{
+                                       S_A_i <- summary(fitA,t=x, extend = TRUE)$surv[i]
+                                     }
+
+                                     S_A <- c(S_A,S_A_i)
+                                   } else{
+                                     S_A <- c(S_A,1)
+
+                                   }
+                                 }
+                               } else{
+
+                                 ## constrained survival prob
+                                 q_optim <- constrOptim(start_surv, fn, grad=grr,
+                                                        ui = ui, ci = rep(0,nrow(ui)))$par
+
+                                 S_A <- exp(q_optim)
+                               }
+
+
 
                                ## For treatment B
                                nrisk <- split(summary(fitB, extend = TRUE)$n.risk,id_B)
@@ -572,10 +595,33 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
                                  }
                                }
 
-                               ## constrained survival prob
-                               q_optim <- constrOptim(start_surv, fn, grad=grr,
-                                                      ui = ui, ci = rep(0,nrow(ui)))$par
-                               S_B <- exp(q_optim)
+                               if (all(rowSums(A_lower*summary(fitB,t=x, extend = TRUE)$surv)>=0)){
+                                 event_time <- split(summary(fitB, extend = TRUE)$time,id_B)
+                                 surv_prob <- split(summary(fitB, extend = TRUE)$surv,id_B)
+                                 S_B <- NULL
+                                 for (i in 1:length(surv_inf)){
+                                   if (i %in% id_B){
+
+                                     if (max(event_time[[as.character(i)]])<x){
+                                       S_B_i=min(surv_prob[[as.character(i)]])
+                                     } else{
+                                       S_B_i <- summary(fitB,t=x, extend = TRUE)$surv[i]
+                                     }
+
+                                     S_B <- c(S_B,S_B_i)
+                                   } else{
+                                     S_B <- c(S_B,1)
+
+                                   }
+                                 }
+                               } else{
+                                 ## constrained survival prob
+                                 q_optim <- constrOptim(start_surv, fn, grad=grr,
+                                                        ui = ui, ci = rep(0,nrow(ui)))$par
+                                 S_B <- exp(q_optim)
+
+                               }
+
 
 
 

@@ -77,7 +77,7 @@ rho = c(0,0.5)
 prop=0.4
 
 constr_result <- lapply(maxn_list, function(x)
-  lapply(d_list,function(y) 
+  lapply(d_list,function(y)
     pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=c(0.55,0.65),
                      surv_sup=c(0.75,0.85),
                      d=y, arrival_rate=4,FUP=6,
@@ -96,7 +96,7 @@ constr_result$amb_pct = 1-constr_result$corr_pct-constr_result$wrong_pct
 
 
 km_result <- lapply(maxn_list, function(x)
-  lapply(d_list,function(y) 
+  lapply(d_list,function(y)
     pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=c(0.55,0.65),
                      surv_sup=c(0.75,0.85),
                      d=y, arrival_rate=4,FUP=6,
@@ -303,7 +303,7 @@ contr_combo <- function(n, p_inf_seq,
       lambda <- 0
       while (lambda<sigma){
         n <- n+1
-        result <- pickwin_bin_exact(n = n, p_inf = p_inf_seq[[i]], 
+        result <- pickwin_bin_exact(n = n, p_inf = p_inf_seq[[i]],
                                     D=D,d=d,
                                     prop.strat=prop_seq,study="Constrained")
         lambda <- result[1]+result[2]*rho
@@ -329,7 +329,7 @@ original_combo <- function(n, p_inf_seq,
       lambda <- 0
       while (lambda<sigma){
         n <- n+1
-        result <- pickwin_bin_exact(n = n, p_inf = p_inf_seq[[i]], 
+        result <- pickwin_bin_exact(n = n, p_inf = p_inf_seq[[i]],
                                     D=D,d=d,
                                     prop.strat=prop_seq,study="Origin")
         lambda <- result[1]+result[2]*rho
@@ -374,7 +374,7 @@ surv_sup_seq <- list(c(0.25,0.35),
 d_diff1 <- 0.05
 d_diff2 <- 0.05
 
-nstart = c(24,45,56,45,24)
+nstart = c(25,42,53,43,24)
 
 ## constrained survival
 output <- NULL
@@ -507,7 +507,7 @@ D_list <- list(c(0.2,0.2),c(0.1,0.2),c(-0.1,0.2),c(-0.2,0.2),c(0.2,-0.1),c(0.2,-
 study_list <- c("Constrained","Origin")
 
 constr_output <- lapply(p_inf_list, function(x)
-  lapply(D_list, function(y) 
+  lapply(D_list, function(y)
     lapply(study_list, function(z)
       pickwin_bin_exact(n = 30, p_inf = x,
                         D=y,d=c(0.05,0.05),
@@ -531,7 +531,7 @@ surv_inf_list <- list(c(0.55,0.65),
                       c(0.55,0.65),
                       c(0.55,0.65),
                       c(0.55,0.65),
-                          
+
                       c(0.55,0.45),
                       c(0.55,0.45),
                       c(0.55,0.45),
@@ -545,7 +545,7 @@ surv_sup_list <- list(c(0.75,0.85),
                       c(0.35,0.85),
                       c(0.75,0.55),
                       c(0.75,0.45),
-                      
+
                       c(0.75,0.65),
                       c(0.65,0.65),
                       c(0.45,0.65),
