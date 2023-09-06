@@ -76,6 +76,7 @@ d_list <- list(c(0.03,0.03),c(0.07,0.07))
 rho = c(0,0.5)
 prop=0.4
 
+## With Constraints
 constr_result <- lapply(maxn_list, function(x)
   lapply(d_list,function(y)
     pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=c(0.55,0.65),
@@ -94,7 +95,7 @@ constr_result$amb_pct = 1-constr_result$corr_pct-constr_result$wrong_pct
 
 
 
-
+## Without Constraints
 km_result <- lapply(maxn_list, function(x)
   lapply(d_list,function(y)
     pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=c(0.55,0.65),
@@ -113,7 +114,7 @@ km_result <- km_result %>% mutate(corr_pct=Corr/8000, wrong_pct=Wrong/8000)
 km_result$amb_pct = 1-km_result$corr_pct-km_result$wrong_pct
 
 
-
+## format the data to create plot
 sim_data <- rbind(constr_result,km_result)
 sim_data <- sim_data %>% data.frame() %>%
   mutate(Group=c(rep("Contr",nrow(km_result)),rep("KM",nrow(km_result))))
@@ -135,7 +136,6 @@ plot_data <- data.frame(n = c(sim_data$n,sim_data$n),
 
 plot_data$rho <- factor(plot_data$rho, levels = c("0","0.5"),
                         ordered = TRUE, labels=c(expression(paste(rho,"=0")),expression(paste(rho,"=0.5"))))
-# plot_data$d <- factor(plot_data$d)
 plot_data$d <- ifelse(plot_data$d==0.03,"(0.03,0.03)","(0.07,0.07)")
 
 
@@ -153,10 +153,10 @@ ggplot(plot_data, aes(x=n, y=Lambda, group=interaction(Group,d),color = Group,li
 
 ## case study:
 ## binary case
-
 n_list <- c(20,25,30,35,40,45,50)
 rho = c(0,0.5)
 
+## Without Constraints
 output_old <- lapply(n_list, function(x)
   pickwin_bin_exact(n = x, p_inf=c(0.4,0.5),
                     D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Origin")
@@ -165,7 +165,7 @@ output_old <- lapply(n_list, function(x)
 output_old <- bind_rows(output_old, .id = "column_label")
 output_old$n <- n_list
 
-
+## With Constraints
 output_new <- lapply(n_list, function(x)
   pickwin_bin_exact(n = x,  p_inf=c(0.4,0.5),
                     D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Constrained")
@@ -195,7 +195,7 @@ plot_data$rho <- factor(plot_data$rho, levels = c("0","0.5"),
                         ordered = TRUE, labels=c(expression(paste(rho,"=0")),expression(paste(rho,"=0.5"))))
 
 
-
+## make plot
 ggplot(plot_data, aes(x=n, y=Lambda, group=Group,color = Group))+theme_classic() +
   facet_wrap(~rho,
              labeller = label_parsed)+
@@ -210,11 +210,10 @@ ggplot(plot_data, aes(x=n, y=Lambda, group=Group,color = Group))+theme_classic()
 
 ## survival case
 ## simulation result
-
-
 maxn_list <- c(20,25,30,35,40,45)
 rho = c(0,0.5)
 
+## With Constraints
 constr_result <- lapply(maxn_list, function(x)
     pickwin_surv_fun(maxn=x,prop=c(0.3,0.7),surv_inf=c(0.6,0.7),
                      surv_sup=c(0.75,0.85),
@@ -230,9 +229,7 @@ constr_result$case <- maxn_list
 constr_result <- constr_result %>% mutate(corr_pct=Corr/8000, wrong_pct=Wrong/8000)
 constr_result$amb_pct = 1-constr_result$corr_pct-constr_result$wrong_pct
 
-
-
-
+## Without Constraints
 km_result <- lapply(maxn_list, function(x)
   pickwin_surv_fun(maxn=x,prop=c(0.3,0.7),surv_inf=c(0.6,0.7),
                    surv_sup=c(0.75,0.85),
@@ -249,15 +246,15 @@ km_result <- km_result %>% mutate(corr_pct=Corr/8000, wrong_pct=Wrong/8000)
 km_result$amb_pct = 1-km_result$corr_pct-km_result$wrong_pct
 
 
-
+## format the data for plot
 sim_data <- rbind(constr_result,km_result)
 sim_data <- sim_data %>% data.frame() %>%
   mutate(Group=c(rep("Contr",nrow(km_result)),rep("KM",nrow(km_result))))
 sim_data$n <- rep(maxn_list,2)
 
-
 sim_data$Lambda_0 <- sim_data$corr_pct
 sim_data$Lambda_05 <- sim_data$corr_pct + 0.5*sim_data$amb_pct
+
 
 ## create plot
 plot_data <- data.frame(n = c(sim_data$n,sim_data$n),
@@ -287,8 +284,6 @@ ggplot(plot_data, aes(x=n, y=Lambda, group=Group,color = Group))+theme_classic()
 ### Simulation table
 ## Binary
 p_inf_seq <- list(c(0.05,0.15),c(0.2,0.3),c(0.35,0.45),c(0.5,0.6),c(0.65,0.75))
-n_old1 <- NULL
-n_new1 <- NULL
 prop_seq=0.4
 D = c(0.2,0.2)
 d= c(0.05,0.05)
@@ -296,6 +291,8 @@ rho = 0.5
 ## explore different p_inf seq
 cl <- makeCluster(6)
 registerDoParallel(cl)
+
+## With Constraints
 contr_combo <- function(n, p_inf_seq,
                         D,d,prop_seq,sigma,rho,nstart){
   start.p <- foreach(i=1:length(p_inf_seq),.combine = 'rbind',.packages="constrselect") %dopar% {
@@ -320,7 +317,7 @@ contr_combo <- function(n, p_inf_seq,
 n_new1 <- contr_combo (n, p_inf_seq,
                        D,d,prop_seq,sigma=0.8,rho = 0,nstart=25)
 
-
+## Without Constraints
 original_combo <- function(n, p_inf_seq,
                            D,d,prop_seq,sigma,rho,nstart){
   start.p <- foreach(i=1:length(p_inf_seq),.combine = 'rbind',.packages="constrselect") %dopar%  {
@@ -355,7 +352,6 @@ n_old1 <- original_combo (n, p_inf_seq, D,d,prop_seq,sigma=0.8,rho = 0,nstart=25
 sigma=0.8;rho = 0;
 FUP = 6
 prop_seq <- 0.4
-
 
 surv_inf_seq <- list(c(0.05,0.15),
                            c(0.2,0.3),
@@ -500,7 +496,6 @@ save(constr_result,orig_result,file = "review2_surv.RData")
 
 
 ## cases where your monotonicity constraints are violated.
-
 ## Binary:
 p_inf_list <- list(c(0.35,0.45),c(0.35,0.25))
 D_list <- list(c(0.2,0.2),c(0.1,0.2),c(-0.1,0.2),c(-0.2,0.2),c(0.2,-0.1),c(0.2,-0.2))
@@ -523,7 +518,6 @@ save(constr_output_bin,file = "review3_bin.RData")
 
 
 ## Survival
-
 study_list <- c("Constrained","Origin")
 surv_inf_list <- list(c(0.55,0.65),
                       c(0.55,0.65),
