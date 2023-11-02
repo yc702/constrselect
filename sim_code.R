@@ -8,6 +8,7 @@ options(digits=10)
 set.seed(111, kind = "L'Ecuyer-CMRG")
 
 ## binary simulation result
+
 n_list <- c(20,30,40,50,60,70)
 d_list <- list(c(0.03,0.03),c(0.07,0.07))
 rho = c(0,0.5)
