@@ -36,7 +36,7 @@ Suppose the lymph node only group will have a higher response rate than the othe
 library(constrselect)
 ## basic example code
 result = pickwin_bin_exact(n = 20, p_inf = c(0.4,0.5),
-D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Constrained")
+D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Constrained",order_list=list(1,2))
 
 ## lambda calculation with rho = 0.5
 result[1]+0.5*result[2]
@@ -65,7 +65,7 @@ prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 5000,cluster=6,order_list=list
 
 Suppose two treatment arms are examined with the primary outcome of the study to be EFS and the stratification of this study to be based on nodal status. Previous studies showed that the node positive group had lower 2-year EFS than node negative group. The prevalence of node positive is around 30\%. 
 
-Suppose the two strata of the inferior treatment arm have 2-year EFS (0.6, 0.7), and the sample size is determined based on an improvement of 0.15 for the better treatment arm. Suppose patients enroll according to a Poisson process with an accrual rate of 8 patients per year for each of the treatment arm stratum. We will continue follow-up for an additional 2 years after the last patient is enrolled for each stratum. Suppose the survival time follows exponential distribution and we are constraining and comparing survival probabilities at 2 years. Based on 8000 Monte Carlo simulations, we only need a sample size of 30 to achieve $\lambda =\rho \times P_{amb}+P_{corr}= 0.8$ with $\rho = 0.5$ and ambiguous region (0.02, 0.02). 
+Suppose the two strata of the inferior treatment arm have 2-year EFS (0.6, 0.7), and the sample size is determined based on an improvement of 0.15 for the better treatment arm. Suppose patients enroll according to a Poisson process with an accrual rate of 8 patients per year for each of the treatment arm stratum. We will continue follow-up for an additional 2 years after the last patient is enrolled for each stratum. Suppose the survival time follows exponential distribution and we are constraining and comparing survival probabilities at 2 years. Based on 8000 Monte Carlo simulations, we only need a sample size of 30 to achieve $\lambda =\rho \times P_{amb}+P_{corr}= 0.8$ with $\rho = 0.5$ and ambiguous region (0.02, 0.02). The code is generalizable to more than two strata.
 
 ``` r
 ## basic example code
