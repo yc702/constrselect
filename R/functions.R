@@ -541,9 +541,8 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
                                A_lower <- partial_order(order_list)
                                ui <- rbind(A_lower,A_upper)
                                # start_surv <- sort(runif(length(n),-0.3,-0.1))
-                               start_surv <- sort(runif(length(n),min = log(range(summary(fitA,t=x, extend = TRUE)$surv))[1]-0.05,
-                                                        max = log(range(summary(fitA,t=x, extend = TRUE)$surv))[2]))
-                               print(start_surv)
+                               start_surv <- sort(runif(length(n),min = log(range(summary(fitB,t=x, extend = TRUE)$surv)[1]+0.01)-0.1,
+                                                        max = log(range(summary(fitB,t=x, extend = TRUE)$surv))[2]))
                                if (all(rowSums(A_lower*summary(fitA,t=x, extend = TRUE)$surv)>=0)){
 
                                  event_time <- split(summary(fitA, extend = TRUE)$time,id_A)
@@ -601,7 +600,7 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
 
                                  }
                                }
-                               start_surv <- sort(runif(length(n),min = log(range(summary(fitB,t=x, extend = TRUE)$surv))[1]-0.05,
+                               start_surv <- sort(runif(length(n),min = log(range(summary(fitB,t=x, extend = TRUE)$surv)[1]+0.01)-0.1,
                                                         max = log(range(summary(fitB,t=x, extend = TRUE)$surv))[2]))
 
                                if (all(rowSums(A_lower*summary(fitB,t=x, extend = TRUE)$surv)>=0)){

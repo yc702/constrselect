@@ -16,7 +16,8 @@ rho = c(0,0.5)
 output_old <- lapply(n_list, function(y)
   lapply(d_list, function(x) pickwin_bin_exact(n = y, p_inf = c(0.35,0.45),
                                                D=c(0.2,0.2),d=x,
-                                               prop.strat=0.4,study="Origin")
+                                               prop.strat=0.4,study="Origin",
+                                               order_list = list(1,2))
 ))
 
 output_old <- bind_rows(output_old, .id = "column_label")
@@ -27,7 +28,8 @@ output_old$d <- rep(c(0.03,0.07),length(n_list))
 output_new <- lapply(n_list, function(y)
   lapply(d_list, function(x) pickwin_bin_exact(n = y, p_inf = c(0.35,0.45),
                                                D=c(0.2,0.2),d=x,
-                                               prop.strat=0.4,study="Constrained")
+                                               prop.strat=0.4,study="Constrained",
+                                               order_list = list(1,2))
   ))
 
 output_new <- bind_rows(output_new, .id = "column_label")
@@ -159,7 +161,7 @@ rho = c(0,0.5)
 ## Without Constraints
 output_old <- lapply(n_list, function(x)
   pickwin_bin_exact(n = x, p_inf=c(0.4,0.5),
-                    D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Origin")
+                    D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Origin",order_list = list(1,2))
   )
 
 output_old <- bind_rows(output_old, .id = "column_label")
@@ -168,7 +170,7 @@ output_old$n <- n_list
 ## With Constraints
 output_new <- lapply(n_list, function(x)
   pickwin_bin_exact(n = x,  p_inf=c(0.4,0.5),
-                    D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Constrained")
+                    D=c(0.2,0.2),d=c(0.05,0.05),prop.strat=0.7,study="Constrained",order_list = list(1,2))
 )
 
 output_new <- bind_rows(output_new, .id = "column_label")
