@@ -24,6 +24,8 @@ Follow up the patients for addition month after the last patient is accrued.
 }
 \details{
 DETAILS
+}
+\examples{
 library(constrselect)
 sim_surv(nmax=12,arrival_rate=4,event_rate=0.08,FUP=6)
 }

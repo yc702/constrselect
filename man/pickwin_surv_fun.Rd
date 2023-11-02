@@ -61,7 +61,6 @@ DETAILS
 }
 \examples{
 library(constrselect)
-## Use exponential survival to specify event rate for month 6.
 }
 \seealso{
 \code{\link[doParallel]{registerDoParallel}}
