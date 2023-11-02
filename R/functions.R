@@ -338,8 +338,8 @@ Kg <- function(x,qn,nrisk,nevent,event_time,event_ind){
 #' @param nrisk A vector of number at risk for each event time
 #' @param nevent A vector representing the number of event
 #' @param event_time A vector of event times.
-#' @param event_ind A vector of event indicator (1, 0)
-#' @return Likelihood value
+#' @param event_ind A vector of event indicator (1, 0).
+#' @return Likelihood value.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
