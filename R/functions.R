@@ -387,6 +387,7 @@ llkhd <- function(x,qn,nrisk,nevent,event_time,event_ind){
 #' @param FUP Additional follow up time after the last patient is accrued.
 #' @return Return a dataframe with time to event/censoring and event status (1,0).
 #' @details DETAILS
+#' @examples
 #' library(constrselect)
 #' sim_surv(nmax=12,arrival_rate=4,event_rate=0.08,FUP=6)
 #' @rdname sim_surv
@@ -437,10 +438,9 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
-#' ## Use exponential survival to specify event rate for month 6.
 # test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),surv_inf=c(0.5,0.6,0.6),
 # surv_sup=c(0.7,0.8,0.8),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
-# x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111)
+# x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111) # Use exponential survival to specify event rate for month 6.
 #' @seealso
 #'  \code{\link[doParallel]{registerDoParallel}}
 #'  \code{\link[foreach]{foreach}}
@@ -541,8 +541,11 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
                                A_lower <- partial_order(order_list)
                                ui <- rbind(A_lower,A_upper)
                                # start_surv <- sort(runif(length(n),-0.3,-0.1))
-                               start_surv <- sort(runif(length(n),min = log(range(summary(fitB,t=x, extend = TRUE)$surv)[1]+0.01)-0.1,
-                                                        max = log(range(summary(fitB,t=x, extend = TRUE)$surv))[2]))
+                               # start_surv <- sort(runif(length(n),log(min(surv_inf))-0.1,log(max(surv_inf))))
+                               start_surv <- sort(runif(length(n),min = ifelse(log(range(summary(fitA,t=x, extend = TRUE)$surv)[1]+0.001)>=0,-0.0015,
+                                                                               log(range(summary(fitA,t=x, extend = TRUE)$surv)[1]+0.001)-0.05),
+                                                  max = ifelse(log(range(summary(fitA,t=x, extend = TRUE)$surv)[2]+0.001)>=0,-0.001,
+                                                                     log(range(summary(fitA,t=x, extend = TRUE)$surv)[2]+0.001))))
                                if (all(rowSums(A_lower*summary(fitA,t=x, extend = TRUE)$surv)>=0)){
 
                                  event_time <- split(summary(fitA, extend = TRUE)$time,id_A)
@@ -600,8 +603,13 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
 
                                  }
                                }
-                               start_surv <- sort(runif(length(n),min = log(range(summary(fitB,t=x, extend = TRUE)$surv)[1]+0.01)-0.1,
-                                                        max = log(range(summary(fitB,t=x, extend = TRUE)$surv))[2]))
+                               # start_surv <- sort(runif(length(n),log(min(surv_sup))-0.1,log(max(surv_sup))))
+
+                               start_surv <- sort(runif(length(n),min = ifelse(log(range(summary(fitB,t=x, extend = TRUE)$surv)[1]+0.001)>=0,-0.0015,
+                                                                          log(range(summary(fitB,t=x, extend = TRUE)$surv)[1]+0.001)-0.05),
+                                                   max = ifelse(log(range(summary(fitB,t=x, extend = TRUE)$surv)[2]+0.001)>=0,-0.001,
+                                                                log(range(summary(fitB,t=x, extend = TRUE)$surv)[2]+0.001))))
+
 
                                if (all(rowSums(A_lower*summary(fitB,t=x, extend = TRUE)$surv)>=0)){
                                  event_time <- split(summary(fitB, extend = TRUE)$time,id_B)

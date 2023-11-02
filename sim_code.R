@@ -304,7 +304,8 @@ contr_combo <- function(n, p_inf_seq,
         n <- n+1
         result <- pickwin_bin_exact(n = n, p_inf = p_inf_seq[[i]],
                                     D=D,d=d,
-                                    prop.strat=prop_seq,study="Constrained")
+                                    prop.strat=prop_seq,study="Constrained",
+                                    order_list = list(1,2))
         lambda <- result[1]+result[2]*rho
       }
 
