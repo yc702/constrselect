@@ -21,34 +21,36 @@ pickwin_surv_fun(
 )
 }
 \arguments{
-\item{maxn}{Number of patients need to be accrued for each treatment arm}
+\item{maxn}{Number of patients need to be accrued for each treatment arm.}
 
-\item{prop}{The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)}
+\item{prop}{The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5).}
 
-\item{surv_inf}{The exponential survival probability for patients in the inferior treatment arm}
+\item{surv_inf}{The exponential survival probability for patients in the inferior treatment arm.}
 
-\item{surv_sup}{The exponential survival probability for patients in the superior treatment arm}
+\item{surv_sup}{The exponential survival probability for patients in the superior treatment arm.}
 
-\item{d}{A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)}
+\item{d}{A vector of ambiguous region for each stratum survival probability, Default: c(0.05, 0.05, 0.05).}
 
-\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year}
+\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year.}
 
-\item{FUP}{Additional follow up time after the last patient is accrued}
+\item{FUP}{Additional follow up time after the last patient is accrued.}
 
 \item{x}{Time we are interested in comparing.}
 
-\item{S}{Number of simulation}
+\item{S}{Number of simulation.}
 
-\item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'}
+\item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'.}
 
-\item{cluster}{Number of parallel running CPU cores, Default: 6}
+\item{cluster}{Number of parallel running CPU cores, Default: 6.}
 
-\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list.}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list.
+Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3.
+Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3.}
 
-\item{with_seed}{Random seed for simulation, Default: NULL}
+\item{with_seed}{Random seed for simulation, Default: NULL.}
 }
 \value{
-A data frame of survival probability, correct and error decision for each simulated scenario
+A data frame of survival probability, correct and error decision for each simulated scenario.
 }
 \description{
 Estimate constrained NPMLE of survival probabilities in stratified selection setting using simulation.

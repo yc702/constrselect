@@ -9,21 +9,21 @@ Kg(x, qn, nrisk, nevent, event_time, event_ind)
 \arguments{
 \item{x}{Time we are interested in comparing.}
 
-\item{qn}{Parameter we are optimizing which survival probability at time x is exp(qn)}
+\item{qn}{Parameter we are optimizing which survival probability at time x is exp(qn).}
 
-\item{nrisk}{A vector of number at risk for each event time}
+\item{nrisk}{A vector of number at risk for each event time.}
 
-\item{nevent}{A vector of 1 representing the number of event}
+\item{nevent}{A vector representing the number of event.}
 
-\item{event_time}{A vector of event times.}
+\item{event_time}{A vector of event times, could be either having event of censored time.}
 
-\item{event_ind}{A vector of event indicator (1, 0)}
+\item{event_ind}{A vector of event indicator (1, 0).}
 }
 \value{
-OUTPUT_DESCRIPTION
+A value of intermediate result K for later profile loglikelihood function optimization.
 }
 \description{
-Function used for constrained likelihood optimization
+Function used for constrained likelihood optimization.
 }
 \details{
 DETAILS

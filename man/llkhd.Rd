@@ -13,7 +13,7 @@ llkhd(x, qn, nrisk, nevent, event_time, event_ind)
 
 \item{nrisk}{A vector of number at risk for each event time}
 
-\item{nevent}{A vector of 1 representing the number of event}
+\item{nevent}{A vector representing the number of event}
 
 \item{event_time}{A vector of event times.}
 
@@ -23,7 +23,7 @@ llkhd(x, qn, nrisk, nevent, event_time, event_ind)
 Likelihood value
 }
 \description{
-Calculate constrained likelihood for futher get the constrained NPMLE
+Calculate constrained likelihood for further obtaining the constrained NPMLE
 }
 \details{
 DETAILS

@@ -7,15 +7,15 @@
 partial_order(order_list)
 }
 \arguments{
-\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list
-Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3
-Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list.
+Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3.
+Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3.}
 }
 \value{
-A matrix with columns stratum number and rows the stratum-wise comparison with 1 the larger one and -1 the smaller one.
+A matrix with columns as the stratum number and rows as the stratum-wise comparison with 1 the larger one and -1 the smaller one.
 }
 \description{
-Accommodate partial ordering and the output will be used in the order constrained optimization program
+Help function to accommodate partial ordering and the output will be used in the order constrained optimization program.
 }
 \examples{
 library(constrselect)

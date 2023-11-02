@@ -5,7 +5,7 @@ test_that("Check partial_order",{
   dimnames(C)[[1]] <- NULL
   expect_equal(partial_order(list(1,c(2,3))),
                C)
-  expect_error(partial_order(c(1,2,3)),"The input or order_list must be a list")
+  expect_error(partial_order(c(1,2,3)),"The input of order_list must be a list")
 })
 
 
@@ -18,7 +18,7 @@ test_that("Check order_constrain",{
 test_that("Check pickwin_bin_exact",{
   result <- pickwin_bin_exact(n = 50, p_inf =c(0.25,0.3),
                               D=c(0.15,0.15),d=c(0.05,0.05),
-                              prop.strat=0.4,study="Constrained")
+                              prop.strat=0.4,study="Constrained",order_list=list(1,2))
   expect_vector(result)
   expect_length(result,2)
 })

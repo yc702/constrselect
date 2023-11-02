@@ -7,16 +7,16 @@
 sim_surv(nmax, arrival_rate, event_rate, FUP)
 }
 \arguments{
-\item{nmax}{Number of patients need to be accrued}
+\item{nmax}{Number of patients need to be accrued.}
 
-\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year}
+\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year.}
 
-\item{event_rate}{The exponential event rate for patients}
+\item{event_rate}{The exponential event rate for patients.}
 
-\item{FUP}{Additional follow up time after the last patient is accrued}
+\item{FUP}{Additional follow up time after the last patient is accrued.}
 }
 \value{
-Return a dataframe with time to event/censoring and event status (1,0)
+Return a dataframe with time to event/censoring and event status (1,0).
 }
 \description{
 Simulate survival times based on poisson arrival and exponential survival.

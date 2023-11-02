@@ -7,18 +7,18 @@
 order_constrain(r, n, order_list)
 }
 \arguments{
-\item{r}{A vector of responses for all strata}
+\item{r}{A vector of responses for all strata.}
 
-\item{n}{A vector of total sample sizes for all strata}
+\item{n}{A vector of total sample sizes for all strata.}
 
-\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list}
+\item{order_list}{A list of strata order allowing for partial ordering grouped in a vector within a list.}
 }
 \value{
 A vector containing the solution of the quadratic programming problem.
 }
 \description{
 For each stratum, given the order list, estimate the
-order constrained binary outcome estimator using quadratic programming optimization
+order constrained binary outcome estimator using quadratic programming optimization.
 }
 \details{
 DETAILS

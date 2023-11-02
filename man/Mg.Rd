@@ -9,15 +9,15 @@ Mg(x, event_time, event_ind)
 \arguments{
 \item{x}{Time we are interested in comparing.}
 
-\item{event_time}{A vector of event times.}
+\item{event_time}{A vector of event times, could be either having event of censored time.}
 
-\item{event_ind}{A vector of event indicator (1, 0)}
+\item{event_ind}{A vector of event indicator (1, 0).}
 }
 \value{
-A number of distinct events in (0,x]
+The number of distinct events in (0,x].
 }
 \description{
-Calculate the number of distinct events in (0,x], which will be used in the following likelihood calculation
+Calculate the number of distinct events in (0,x], which will be used in the following likelihood calculation.
 }
 \details{
 DETAILS

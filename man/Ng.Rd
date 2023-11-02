@@ -9,13 +9,13 @@ Ng(x, event_time)
 \arguments{
 \item{x}{Time we are interested in comparing.}
 
-\item{event_time}{A vector of event times.}
+\item{event_time}{A vector of event times, could be either having event of censored time.}
 }
 \value{
-A number at risk at time x
+The number of patients at risk at time x.
 }
 \description{
-Calculate number at risk at time x, which will be used in the following likelihood calculation
+Calculate number at risk at time x, which will be used in the following likelihood calculation.
 }
 \details{
 DETAILS

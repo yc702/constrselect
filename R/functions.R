@@ -1,9 +1,9 @@
 #' @title Accommodate partial ordering in optimization
-#' @description Accommodate partial ordering and the output will be used in the order constrained optimization program
-#' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list
-#' Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3
-#' Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3
-#' @return A matrix with columns stratum number and rows the stratum-wise comparison with 1 the larger one and -1 the smaller one.
+#' @description Help function to accommodate partial ordering and the output will be used in the order constrained optimization program.
+#' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list.
+#' Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3.
+#' Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3.
+#' @return A matrix with columns as the stratum number and rows as the stratum-wise comparison with 1 the larger one and -1 the smaller one.
 #' @examples
 #' library(constrselect)
 #' partial_order(list(1,c(2,3),4,5))
@@ -11,7 +11,7 @@
 #' @export
 partial_order <- function(order_list){
   ## partial ordering according to order list
-  if(class(order_list)!="list") stop("The input or order_list must be a list")
+  if(class(order_list)!="list") stop("The input of order_list must be a list")
 
   order_output <- NULL
   for (i in 1:(length(order_list)-1)){
@@ -50,10 +50,10 @@ partial_order <- function(order_list){
 
 #' @title Order constrained binary outcome estimation
 #' @description For each stratum, given the order list, estimate the
-#' order constrained binary outcome estimator using quadratic programming optimization
-#' @param r A vector of responses for all strata
-#' @param n A vector of total sample sizes for all strata
-#' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list
+#' order constrained binary outcome estimator using quadratic programming optimization.
+#' @param r A vector of responses for all strata.
+#' @param n A vector of total sample sizes for all strata.
+#' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list.
 #' @return A vector containing the solution of the quadratic programming problem.
 #' @details DETAILS
 #' @examples
@@ -89,20 +89,21 @@ order_constrain<-function(r,n,order_list){
 #' two treatments with two strata using exact binomial method.
 #' @param n Total sample size for all strata.
 #' @param p_inf A vector of true probability for inferior treatment stratum arm.
-#' @param D A vector of two treatment arms differences for each stratum, Default: c(0.15, 0.15)
-#' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05)
-#' @param prop.strat The sample size proportion for the inferior strata, Default: 0.3
-#' @param study Could be either "Constrained" or "Origin" for the two type of study design, Default: NULL
-#' @return Return a vector of pcorr and pamb representing $P_{corr}$ and $P_{amb}$
+#' @param D A vector of two treatment arms differences for each stratum for the superior treatment, Default: c(0.15, 0.15).
+#' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05).
+#' @param prop.strat The sample size proportion for the inferior strata, Default: 0.3.
+#' @param study Could be either "Constrained" or "Origin" for the two types of study design, Default: NULL.
+#' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list, default list(1,2).
+#' @return Return a vector of pcorr and pamb representing $P_{corr}$ and $P_{amb}$.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
-#' pickwin_bin_exact(n = 50, p_inf = c(0.25,0.3), D=c(0.15,0.15),d=c(0.05,0.05),prop.strat=0.4,study="Constrained")
+#' pickwin_bin_exact(n = 50, p_inf = c(0.25,0.3), D=c(0.15,0.15),d=c(0.05,0.05),prop.strat=0.4,study="Constrained",order_list = list(1,2))
 #' @rdname pickwin_bin_exact
 #' @export
 pickwin_bin_exact<- function(n, p_inf,
                              D=c(0.15,0.15),d=c(0.05,0.05),
-                             prop.strat=0.3,study=NULL)
+                             prop.strat=0.3,study=NULL,order_list)
 {
   n1<- ceiling(prop.strat*n)
   n2<- n-n1
@@ -113,7 +114,7 @@ pickwin_bin_exact<- function(n, p_inf,
     for (i2 in 0:n2){
       Rk1 <- c(i1,i2)
       if (study == "Constrained"){
-        p_1 <- order_constrain(Rk1,Nk,order_list=list(1,2))
+        p_1 <- order_constrain(Rk1,Nk,order_list)
 
       } else if (study =="Origin"){
         p_1 <- Rk1/Nk
@@ -126,7 +127,7 @@ pickwin_bin_exact<- function(n, p_inf,
         for (j2 in 0:n2){
           Rk2 <- c(j1,j2)
           if (study == "Constrained"){
-            p_2 <- order_constrain(Rk2,Nk,order_list=list(1,2))
+            p_2 <- order_constrain(Rk2,Nk,order_list)
 
           } else if (study =="Origin"){
             p_2 <- Rk2/Nk
@@ -181,7 +182,7 @@ pickwin_bin_exact<- function(n, p_inf,
 #' @examples
 #' library(constrselect)
 #' out <- pickwin_bin_multiple(n = 50, p_inf = c(0.25,0.28,0.28), D=c(0.15,0.15,0.15),d=c(0.05,0.05,0.05),
-#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,order_list=list(1,c(2,3)))
+#' prop.strat=c(0.3,0.3,0.4),study="Constrained",S = 1000,cluster=2,with_seed = 10,order_list=list(1,c(2,3)))
 #' @rdname pickwin_bin_multiple
 #' @export
 #' @import doParallel
@@ -239,11 +240,11 @@ pickwin_bin_multiple <- function(n, p_inf,
 
 
 #' @title Calculate distinct events
-#' @description Calculate the number of distinct events in (0,x], which will be used in the following likelihood calculation
+#' @description Calculate the number of distinct events in (0,x], which will be used in the following likelihood calculation.
 #' @param x Time we are interested in comparing.
-#' @param event_time A vector of event times.
-#' @param event_ind A vector of event indicator (1, 0)
-#' @return A number of distinct events in (0,x]
+#' @param event_time A vector of event times, could be either having event of censored time.
+#' @param event_ind A vector of event indicator (1, 0).
+#' @return The number of distinct events in (0,x].
 #' @details DETAILS
 #' @examples
 #' Mg(x = 6, event_time=c(0.41, 0.8, 2.2, 2.5, 3, 4.5, 6, 6.2, 6.5, 7),event_ind=c(1,1,1,1,1,1,0,0,0,0)) #6
@@ -255,10 +256,10 @@ Mg <- function(x,event_time,event_ind){
 }
 
 #' @title Calculate number at risk at a specific time
-#' @description Calculate number at risk at time x, which will be used in the following likelihood calculation
+#' @description Calculate number at risk at time x, which will be used in the following likelihood calculation.
 #' @param x Time we are interested in comparing.
-#' @param event_time A vector of event times.
-#' @return A number at risk at time x
+#' @param event_time A vector of event times, could be either having event of censored time.
+#' @return The number of patients at risk at time x.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
@@ -275,14 +276,14 @@ Ng <- function(x,event_time){
 
 
 #' @title Function used for constrained likelihood optimization
-#' @description Function used for constrained likelihood optimization
+#' @description Function used for constrained likelihood optimization.
 #' @param x Time we are interested in comparing.
-#' @param qn Parameter we are optimizing which survival probability at time x is exp(qn)
-#' @param nrisk A vector of number at risk for each event time
-#' @param nevent A vector of 1 representing the number of event
-#' @param event_time A vector of event times.
-#' @param event_ind A vector of event indicator (1, 0)
-#' @return OUTPUT_DESCRIPTION
+#' @param qn Parameter we are optimizing which survival probability at time x is exp(qn).
+#' @param nrisk A vector of number at risk for each event time.
+#' @param nevent A vector representing the number of event.
+#' @param event_time A vector of event times, could be either having event of censored time.
+#' @param event_ind A vector of event indicator (1, 0).
+#' @return A value of intermediate result K for later profile loglikelihood function optimization.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
@@ -331,11 +332,11 @@ Kg <- function(x,qn,nrisk,nevent,event_time,event_ind){
 
 
 #' @title Calculate constrained likelihood
-#' @description Calculate constrained likelihood for futher get the constrained NPMLE
+#' @description Calculate constrained likelihood for further obtaining the constrained NPMLE
 #' @param x Time we are interested in comparing.
 #' @param qn Parameter we are optimizing which survival probability at time x is exp(qn)
 #' @param nrisk A vector of number at risk for each event time
-#' @param nevent A vector of 1 representing the number of event
+#' @param nevent A vector representing the number of event
 #' @param event_time A vector of event times.
 #' @param event_ind A vector of event indicator (1, 0)
 #' @return Likelihood value
@@ -380,11 +381,11 @@ llkhd <- function(x,qn,nrisk,nevent,event_time,event_ind){
 #' @title Simulation of survival times
 #' @description Simulate survival times based on poisson arrival and exponential survival.
 #' Follow up the patients for addition month after the last patient is accrued.
-#' @param nmax Number of patients need to be accrued
-#' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year
-#' @param event_rate The exponential event rate for patients
-#' @param FUP Additional follow up time after the last patient is accrued
-#' @return Return a dataframe with time to event/censoring and event status (1,0)
+#' @param nmax Number of patients need to be accrued.
+#' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year.
+#' @param event_rate The exponential event rate for patients.
+#' @param FUP Additional follow up time after the last patient is accrued.
+#' @return Return a dataframe with time to event/censoring and event status (1,0).
 #' @details DETAILS
 #' library(constrselect)
 #' sim_surv(nmax=12,arrival_rate=4,event_rate=0.08,FUP=6)
@@ -417,20 +418,22 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @title Estimate constrained NPMLE of survival probabilities in stratified selection setting
 #' @description Estimate constrained NPMLE of survival probabilities in stratified selection setting using simulation.
 #' For each simulation setting, get whether it is correctly or wrongly counted in.
-#' @param maxn Number of patients need to be accrued for each treatment arm
-#' @param prop The sample size proportion for two strata, Default: c(0.2, 0.3, 0.5)
-#' @param surv_inf The exponential survival probability for patients in the inferior treatment arm
-#' @param surv_sup The exponential survival probability for patients in the superior treatment arm
-#' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)
-#' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year
-#' @param FUP Additional follow up time after the last patient is accrued
+#' @param maxn Number of patients need to be accrued for each treatment arm.
+#' @param prop The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5).
+#' @param surv_inf The exponential survival probability for patients in the inferior treatment arm.
+#' @param surv_sup The exponential survival probability for patients in the superior treatment arm.
+#' @param d A vector of ambiguous region for each stratum survival probability, Default: c(0.05, 0.05, 0.05).
+#' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year.
+#' @param FUP Additional follow up time after the last patient is accrued.
 #' @param x Time we are interested in comparing.
-#' @param S Number of simulation
-#' @param study Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'
-#' @param cluster Number of parallel running CPU cores, Default: 6
+#' @param S Number of simulation.
+#' @param study Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'.
+#' @param cluster Number of parallel running CPU cores, Default: 6.
 #' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list.
-#' @param with_seed Random seed for simulation, Default: NULL
-#' @return A data frame of survival probability, correct and error decision for each simulated scenario
+#' Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3.
+#' Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3.
+#' @param with_seed Random seed for simulation, Default: NULL.
+#' @return A data frame of survival probability, correct and error decision for each simulated scenario.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
@@ -535,8 +538,10 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
                                ## partial ordering according to order list
                                A_lower <- partial_order(order_list)
                                ui <- rbind(A_lower,A_upper)
-                               start_surv <- sort(runif(length(n),-0.3,-0.1))
-
+                               # start_surv <- sort(runif(length(n),-0.3,-0.1))
+                               start_surv <- sort(runif(length(n),min = log(range(summary(fitA,t=x, extend = TRUE)$surv))[1]-0.05,
+                                                        max = log(range(summary(fitA,t=x, extend = TRUE)$surv))[2]))
+                               print(start_surv)
                                if (all(rowSums(A_lower*summary(fitA,t=x, extend = TRUE)$surv)>=0)){
 
                                  event_time <- split(summary(fitA, extend = TRUE)$time,id_A)
@@ -594,6 +599,8 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
 
                                  }
                                }
+                               start_surv <- sort(runif(length(n),min = log(range(summary(fitB,t=x, extend = TRUE)$surv))[1]-0.05,
+                                                        max = log(range(summary(fitB,t=x, extend = TRUE)$surv))[2]))
 
                                if (all(rowSums(A_lower*summary(fitB,t=x, extend = TRUE)$surv)>=0)){
                                  event_time <- split(summary(fitB, extend = TRUE)$time,id_B)
