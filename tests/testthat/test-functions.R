@@ -3,8 +3,7 @@ test_that("Check partial_order",{
   B <- c(-1,0,1)
   C <- as.matrix(rbind(A,B))
   dimnames(C)[[1]] <- NULL
-  expect_equal(partial_order(list(1,c(2,3))),
-               C)
+  expect_equal(partial_order(list(1,c(2,3))),C)
   expect_error(partial_order(c(1,2,3)),"The input of order_list must be a list")
 })
 

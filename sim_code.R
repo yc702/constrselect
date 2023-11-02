@@ -6,7 +6,6 @@ library(foreach)
 library(doParallel)
 options(digits=10)
 set.seed(111, kind = "L'Ecuyer-CMRG")
-
 ## binary simulation result
 
 n_list <- c(20,30,40,50,60,70)

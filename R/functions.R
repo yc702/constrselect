@@ -500,6 +500,8 @@ pickwin_surv_fun <- function(maxn,prop,surv_inf,
                                event_time <- split(trtA$time,id_full)
                                event_ind <- split(trtA$ind,id_full)
 
+                               ## Fixing some extreme cases like no event before x time
+
                                if (length(unique(id_A))==0){
                                  # stop("There is no event for all stratum.")
                                  nrisk <- as.list(n)
