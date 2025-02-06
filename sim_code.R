@@ -509,7 +509,7 @@ constr_output <- lapply(p_inf_list, function(x)
     lapply(study_list, function(z)
       pickwin_bin_exact(n = 30, p_inf = x,
                         D=y,d=c(0.05,0.05),
-                        prop.strat=0.4,study=z)
+                        prop.strat=0.4,study=z,order_list = list(1,2))
 )))
 constr_result1 <- bind_rows(constr_output[[1]], .id = "column_label")
 constr_result2 <- bind_rows(constr_output[[2]], .id = "column_label")
