@@ -81,7 +81,7 @@ prop=0.4
 ## With Constraints
 constr_result <- lapply(maxn_list, function(x)
   lapply(d_list,function(y)
-    pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=c(0.55,0.65),
+    pickwin_surv_fun(n=x,prop.strat=c(0.4,0.6),surv_inf=c(0.55,0.65),
                      surv_sup=c(0.75,0.85),
                      d=y, arrival_rate=4,FUP=6,
                      x=6,S=8000,study = "Constrained",cluster=6,
@@ -100,7 +100,7 @@ constr_result$amb_pct = 1-constr_result$corr_pct-constr_result$wrong_pct
 ## Without Constraints
 km_result <- lapply(maxn_list, function(x)
   lapply(d_list,function(y)
-    pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=c(0.55,0.65),
+    pickwin_surv_fun(n=x,prop.strat =c(0.4,0.6),surv_inf=c(0.55,0.65),
                      surv_sup=c(0.75,0.85),
                      d=y, arrival_rate=4,FUP=6,
                      x=6,S=8000,study = "Origin",cluster=6,
@@ -217,7 +217,7 @@ rho = c(0,0.5)
 
 ## With Constraints
 constr_result <- lapply(maxn_list, function(x)
-    pickwin_surv_fun(maxn=x,prop=c(0.3,0.7),surv_inf=c(0.6,0.7),
+    pickwin_surv_fun(n=x,prop.strat=c(0.3,0.7),surv_inf=c(0.6,0.7),
                      surv_sup=c(0.75,0.85),
                      d=c(0.02,0.02), arrival_rate=8,FUP=2,
                      x=2,S=8000,study = "Constrained",cluster=6,
@@ -233,7 +233,7 @@ constr_result$amb_pct = 1-constr_result$corr_pct-constr_result$wrong_pct
 
 ## Without Constraints
 km_result <- lapply(maxn_list, function(x)
-  pickwin_surv_fun(maxn=x,prop=c(0.3,0.7),surv_inf=c(0.6,0.7),
+  pickwin_surv_fun(n=x,prop.strat=c(0.3,0.7),surv_inf=c(0.6,0.7),
                    surv_sup=c(0.75,0.85),
                    d=c(0.02,0.02), arrival_rate=8,FUP=2,
                    x=2,S=8000,study = "Origin",cluster=6,
@@ -392,7 +392,7 @@ for(i in 1:length(surv_inf_seq)){
       surv_inf <- surv_inf_seq[[i]]
       surv_sup <- surv_sup_seq[[i]]
 
-      result <- pickwin_surv_fun(maxn=maxn,prop=c(0.4,0.6),
+      result <- pickwin_surv_fun(n=maxn,prop.strat=c(0.4,0.6),
                                  surv_inf=surv_inf,
                                  surv_sup=surv_sup,
                                  d=c(0.05,0.05), arrival_rate=4,FUP=FUP,
@@ -466,7 +466,7 @@ surv_sup_list <- list(c(0.75,0.85),
 
 ## constrained
 constr_output <- lapply(n_list, function(x)
-  mapply(function(y,z) pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=y,
+  mapply(function(y,z) pickwin_surv_fun(n=x,prop.strat=c(0.4,0.6),surv_inf=y,
                                         surv_sup=z,
                                         d=c(0.05,0.05), arrival_rate=4,FUP=6,
                                         x=6,S=8000,study = "Constrained",cluster=6,
@@ -481,7 +481,7 @@ constr_result<- constr_result %>% select(-Corr,-Wrong) %>% group_by(column_label
 
 ## original
 orig_output <- lapply(n_list, function(x)
-  mapply(function(y,z) pickwin_surv_fun(maxn=x,prop=c(0.4,0.6),surv_inf=y,
+  mapply(function(y,z) pickwin_surv_fun(n=x,prop.strat=c(0.4,0.6),surv_inf=y,
                                         surv_sup=z,
                                         d=c(0.05,0.05), arrival_rate=4,FUP=6,
                                         x=6,S=8000,study = "Origin",cluster=6,
@@ -559,7 +559,7 @@ name_sup_case <- c(0.75, 0.65, 0.45, 0.35,0.75,0.25)
 
 ## constrained
 constr_output_surv <- lapply(study_list, function(x)
-  mapply(function(y,z) pickwin_surv_fun(maxn=30,prop=c(0.4,0.6),surv_inf=y,
+  mapply(function(y,z) pickwin_surv_fun(n=30,prop.strat=c(0.4,0.6),surv_inf=y,
                                         surv_sup=z,
                                         d=c(0.05,0.05), arrival_rate=4,FUP=6,
                                         x=6,S=8000,study = x,cluster=6,

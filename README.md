@@ -45,7 +45,7 @@ result[1]+0.5*result[2]
 
 #### More than two strata for randomization
 
-Suppose a clinical trial has three treatment arms comparing treatment A versus treatment B. The primary outcome of the study is response rate and the stratification is based on cancer stage 1,2,3. Previous studies indicated that the larger the cancer stage the worse the prognosis, with the sample proportion of 4:3:3. 
+With a slight modification of the previous example, suppose this clinical trial now has three strata, with the stratification based on cancer stage 1,2,3. Previous studies indicated that the larger the cancer stage the worse the prognosis, with the sample proportion of 4:3:3. 
 
 We assume three strata of the inferior treatment arm have response rates (0.3,0.4,0.5) while the better treatment arm have (0.45,0.55,0.65) for cancer stage 3,2,1. Using 5000 Monte Carlo simulations, `pickwin_bin_multiple()` function could calculate $P_{corr}$ and $P_{amb}$. For this ordering, we need to specify `order_list` to be `list(1,2,3)` which indicate the order constraints strata1 < strata2 < strata3. If we want to specify partial ordering, eg. strata1 < strata2 and strata1 < strata3, we could specify `order_list=list(1,c(2,3))`. We see that the sample size $N$ per arm derived from our method is around 58 to achieve $\lambda = \rho \times P_{amb}+P_{corr}= 0.8$ with $\rho = 0.5$ and ambiguous regions (0.02,0.02,0.02). 
 ``` r

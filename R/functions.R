@@ -173,11 +173,11 @@ pickwin_bin_exact<- function(n, p_inf,
 #' @param d A vector of ambiguous region for each stratum, Default: c(0.05, 0.05, 0.05)
 #' @param prop.strat The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5)
 #' @param study Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'
-#' @param S Number of simulation
+#' @param S Number of simulations.
 #' @param cluster Number of parallel running CPU cores, Default: 6
 #' @param order_list A list of strata order allowing for partial ordering grouped in a vector within a list.
 #' @param with_seed Random seed for simulation, Default: NULL
-#' @return A data frame of binary probability, correct and error decision for each simulated scenario
+#' @return A data frame of whether each simulated scenario has a correct and wrong decision with a total of S number of simulations.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
@@ -379,10 +379,10 @@ llkhd <- function(x,qn,nrisk,nevent,event_time,event_ind){
 
 ## simulation of survival times
 #' @title Simulation of survival times
-#' @description Simulate survival times based on poisson arrival and exponential survival.
+#' @description Simulate survival times based on Poisson arrival and exponential survival.
 #' Follow up the patients for addition month after the last patient is accrued.
 #' @param nmax Number of patients need to be accrued.
-#' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year.
+#' @param arrival_rate The Poisson arrival rate for patients, number of patients accrued each month/year.
 #' @param event_rate The exponential event rate for patients.
 #' @param FUP Additional follow up time after the last patient is accrued.
 #' @return Return a dataframe with time to event/censoring and event status (1,0).
@@ -419,12 +419,12 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @title Estimate constrained NPMLE of survival probabilities in stratified selection setting
 #' @description Estimate constrained NPMLE of survival probabilities in stratified selection setting using simulation.
 #' For each simulation setting, get whether it is correctly or wrongly counted in.
-#' @param maxn Number of patients need to be accrued for each treatment arm.
-#' @param prop The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5).
+#' @param n Number of patients need to be accrued for each treatment arm.
+#' @param prop.strat The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5).
 #' @param surv_inf The exponential survival probability for patients in the inferior treatment arm.
 #' @param surv_sup The exponential survival probability for patients in the superior treatment arm.
 #' @param d A vector of ambiguous region for each stratum survival probability, Default: c(0.05, 0.05, 0.05).
-#' @param arrival_rate The poisson arrival rate for patients, number of patients accrued each month/year.
+#' @param arrival_rate The Poisson arrival rate for patients, number of patients accrued each month/year.
 #' @param FUP Additional follow up time after the last patient is accrued.
 #' @param x Time we are interested in comparing.
 #' @param S Number of simulation.
@@ -434,11 +434,11 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' Example 1: \code{list(1,2,3)} means 3 stratum are in full ordering 1<2<3.
 #' Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<3 and there is no ordering between stratum 2 and 3.
 #' @param with_seed Random seed for simulation, Default: NULL.
-#' @return A data frame of survival probability, correct and error decision for each simulated scenario.
+#' @return A data frame of whether each simulated scenario has a correct and wrong decision with a total of S number of simulations.
 #' @details DETAILS
 #' @examples
 #' library(constrselect)
-# test <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),surv_inf=c(0.5,0.6,0.6),
+# test <- pickwin_surv_fun(n=50,prop.strat=c(0.3,0.3,0.4),surv_inf=c(0.5,0.6,0.6),
 # surv_sup=c(0.7,0.8,0.8),d=c(0.05,0.05,0.05), arrival_rate=4,FUP=6,
 # x=6,S=100,study = "Constrained",cluster=6,order_list=list(1,c(2,3)),with_seed = 111) # Use exponential survival to specify event rate for month 6.
 #' @seealso
@@ -453,14 +453,14 @@ sim_surv <- function(nmax,arrival_rate,event_rate,FUP){
 #' @import doRNG
 #' @import survival
 #' @import dplyr
-pickwin_surv_fun <- function(maxn,prop,surv_inf,
+pickwin_surv_fun <- function(n,prop.strat,surv_inf,
                              surv_sup,d,arrival_rate,FUP,
                              x,S,study = "Constrained",cluster,
                              order_list,with_seed=NULL) {
   #S is simulation times
-  n<- round(prop*maxn)
-  n[length(prop)] <- maxn - sum(n[1:(length(prop)-1)])
-
+  strata_n<- round(prop.strat*n)
+  strata_n[length(prop.strat)] <- n - sum(strata_n[1:(length(prop.strat)-1)])
+  n = strata_n
   cl <- makeCluster(cluster)
   doParallel::registerDoParallel(cl)
 

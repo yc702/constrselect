@@ -5,8 +5,8 @@
 \title{Estimate constrained NPMLE of survival probabilities in stratified selection setting}
 \usage{
 pickwin_surv_fun(
-  maxn,
-  prop,
+  n,
+  prop.strat,
   surv_inf,
   surv_sup,
   d,
@@ -21,9 +21,9 @@ pickwin_surv_fun(
 )
 }
 \arguments{
-\item{maxn}{Number of patients need to be accrued for each treatment arm.}
+\item{n}{Number of patients need to be accrued for each treatment arm.}
 
-\item{prop}{The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5).}
+\item{prop.strat}{The sample size proportion for each stratum, Default: c(0.2, 0.3, 0.5).}
 
 \item{surv_inf}{The exponential survival probability for patients in the inferior treatment arm.}
 
@@ -31,7 +31,7 @@ pickwin_surv_fun(
 
 \item{d}{A vector of ambiguous region for each stratum survival probability, Default: c(0.05, 0.05, 0.05).}
 
-\item{arrival_rate}{The poisson arrival rate for patients, number of patients accrued each month/year.}
+\item{arrival_rate}{The Poisson arrival rate for patients, number of patients accrued each month/year.}
 
 \item{FUP}{Additional follow up time after the last patient is accrued.}
 
@@ -50,7 +50,7 @@ Example 2: \code{list(1,c(2,3))} means 3 stratum are in partial ordering 1<2, 1<
 \item{with_seed}{Random seed for simulation, Default: NULL.}
 }
 \value{
-A data frame of survival probability, correct and error decision for each simulated scenario.
+A data frame of whether each simulated scenario has a correct and wrong decision with a total of S number of simulations.
 }
 \description{
 Estimate constrained NPMLE of survival probabilities in stratified selection setting using simulation.

@@ -81,7 +81,7 @@ test_that("Check sim_surv",{
 
 test_that("Check pickwin_surv_fun",{
   surv_inf=c(0.5,0.6,0.6)
-  result <- pickwin_surv_fun(maxn=50,prop=c(0.3,0.3,0.4),surv_inf=c(0.5,0.6,0.6),
+  result <- pickwin_surv_fun(n=50,prop.strat=c(0.3,0.3,0.4),surv_inf=c(0.5,0.6,0.6),
                              surv_sup=c(0.7,0.8,0.8),d=c(0.05,0.05,0.05), arrival_rate=3,FUP=6,
                              x=6,S=100,study = "Constrained",cluster=2,order_list=list(1,c(2,3)),with_seed = 111)
   expect_s3_class(result,"data.frame")

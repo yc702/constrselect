@@ -30,7 +30,7 @@ pickwin_bin_multiple(
 
 \item{study}{Could be either "Constrained" or "Origin" for the two type of study design, Default: 'Constrained'}
 
-\item{S}{Number of simulation}
+\item{S}{Number of simulations.}
 
 \item{cluster}{Number of parallel running CPU cores, Default: 6}
 
@@ -39,7 +39,7 @@ pickwin_bin_multiple(
 \item{with_seed}{Random seed for simulation, Default: NULL}
 }
 \value{
-A data frame of binary probability, correct and error decision for each simulated scenario
+A data frame of whether each simulated scenario has a correct and wrong decision with a total of S number of simulations.
 }
 \description{
 Estimation of P_corr and P_amb for selection design between
